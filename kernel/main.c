@@ -16,6 +16,24 @@ main()
     printk("\n");
     printk("xv6 kernel is booting\n");
     printk("\n");
+
+    printk("SNUOS2026\n");
+    printk("\n");
+    printk(" ███   ███   ███  █  █         █    ███    █    ███   ███ \n");
+    printk("█   █ █   █ █   █ █  █        ██   █   █  ██   █   █ █   █ \n");
+    printk("   █  █   █    █  █████ ████   █   █   █   █    ███   ████ \n");
+    printk("  █   █   █   █      █         █   █   █   █   █   █     █ \n");
+    printk("█████  ███  █████    █        ███   ███   ███   ███   ███ \n");
+    printk("\n");
+    printk("⣀⣸⣿⣿⣟⣀⢸⣿⡆⠀⣤⣤⣤⣤⡄⢸⣿⢰⣿⡇⠀⠘⠿⠿⠿⣿⣿⡿\n");
+    printk("⠛⢛⣿⣿⣛⠛⢹⣿⣇⣀⠀⠀⣸⣿⠃⢸⣿⢸⣿⡇⠀⣤⣴⣶⡿⠿⢿⣶⣤⡄\n");
+    printk("⠰⣿⣏⣉⣿⡇⢸⣿⡟⠋⢀⣴⣿⣿⣄⢸⣿⢻⣿⡇⣤⣭⣥⣤⣤⣤⣤⣤⣬⣤\n");
+    printk("⠀⢉⣿⡛⠋⠀⢸⣿⡇⠐⢿⠟⠁⠙⠿⢹⣿⢸⣿⡇⠈⢩⣿⠉⢹⣿⠉⠉⠉⠉\n");
+    printk("⠀⢸⣿⣧⣤⣤⣤⣤⣄⠀⠀⠀⠀⠀⠀⢸⣿⢸⣿⡇⠀⢸⣿⣤⣬⣥⣤⣤⣤\n");
+    printk("⠀⠀⠉⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠉⠉⠉⠉⠉⠉⠁\n");
+
+
+
     kinit();            // physical page allocator
     kvminit();          // create kernel page table
     kvminithart();      // turn on paging
