@@ -3,7 +3,7 @@
 STUDENTID =
 
 # Do not change the following PANUM
-PANUM = pa2
+PANUM = pa3
 _PANUM = $(strip $(PANUM))
 ifndef STUDENTID
 $(error Please set STUDENTID in Makefile)
