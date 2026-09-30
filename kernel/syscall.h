@@ -21,3 +21,9 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_sync   22
+#ifdef SNU
+#define SYS_sched_setattr 30
+#define SYS_sched_yield   31
+#define SYS_time          32
+#endif
+

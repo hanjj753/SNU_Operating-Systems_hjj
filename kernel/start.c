@@ -32,6 +32,10 @@ start()
   w_mideleg(0xffff);
   w_sie(r_sie() | SIE_SEIE | SIE_STIE);
 
+#ifdef SNU
+  w_mcounteren(0xf);
+#endif
+
   // configure Physical Memory Protection to give supervisor mode
   // access to all of physical memory.
   w_pmpaddr0(0x3fffffffffffffull);

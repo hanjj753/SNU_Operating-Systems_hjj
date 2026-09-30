@@ -43,3 +43,7 @@ entry("sbrk");
 entry("pause");
 entry("uptime");
 entry("sync");
+# SNU
+entry("sched_setattr");
+entry("sched_yield");
+entry("time");

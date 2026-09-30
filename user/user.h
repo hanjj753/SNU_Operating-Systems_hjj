@@ -25,6 +25,11 @@ char *sys_sbrk(int, int);
 int pause(int);
 int uptime(void);
 int sync(void);
+#ifdef SNU
+uint64 time(void);
+int sched_setattr(int, int, int);
+void sched_yield(void);
+#endif
 
 // ulib.c
 int stat(const char *, struct stat *);
