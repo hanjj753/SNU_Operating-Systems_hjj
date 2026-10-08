@@ -7,6 +7,9 @@
 void main();
 void timerinit();
 
+//kernelvec.S 의 machinevec
+void machinevec();
+
 // entry.S needs one stack per CPU.
 __attribute__((aligned(16))) char stack0[4096 * NCPU];
 
@@ -27,8 +30,10 @@ start()
   // disable paging for now.
   w_satp(0);
 
+  w_mtvec((uint64) machinevec); // 미리 시작할 떄 세팅을 해두어야 scause=9 ecall이 일어났을 때 mtvec -> pc로 옮겨간다.
+
   // delegate all interrupts and exceptions to supervisor mode.
-  w_medeleg(0xffff);
+  w_medeleg(0xfdff); // 9번째 bit이 0으로 되어 있어야 M 모드 진입 가능.
   w_mideleg(0xffff);
   w_sie(r_sie() | SIE_SEIE | SIE_STIE);
 

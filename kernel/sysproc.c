@@ -6,6 +6,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "vm.h"
+#include "syscall.h"
 
 uint64
 sys_exit(void)
@@ -109,4 +110,35 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+extern uint nenter_count;
+
+uint64 sys_nenter(void) {
+
+  return nenter_count;
+}
+
+extern uint64 mcall_getpmpaddr(int n);
+extern uint64 mcall_getpmpcfg(int n);
+
+uint64 sys_getpmpaddr(void) {
+
+  int n;
+  argint(0, &n);
+
+  if (n < 0 || n > 3) return -1;
+
+  return mcall_getpmpaddr(n);
+}
+
+uint64 sys_getpmpcfg(void) {
+
+  int n;
+
+  argint(0, &n);
+
+  if (n < 0 || n > 3) return -1;
+
+  return (int) mcall_getpmpcfg(n);
 }

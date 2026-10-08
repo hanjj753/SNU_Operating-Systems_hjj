@@ -104,6 +104,10 @@ extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
 extern uint64 sys_sync(void);
 
+extern uint64 sys_nenter(void);
+extern uint64 sys_getpmpaddr(void);
+extern uint64 sys_getpmpcfg(void);
+
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
 static uint64 (*syscalls[])(void) = {
@@ -131,6 +135,10 @@ static uint64 (*syscalls[])(void) = {
   [SYS_close]   = sys_close,
   [SYS_sync]    = sys_sync,
   // clang-format on
+  [SYS_nenter]  = sys_nenter,
+  [SYS_getpmpaddr] = sys_getpmpaddr,
+  [SYS_getpmpcfg] = sys_getpmpcfg,
+
 };
 
 void

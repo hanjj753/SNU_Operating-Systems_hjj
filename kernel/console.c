@@ -143,6 +143,9 @@ consoleread(int user_dst, uint64 dst, int n)
 // do erase/kill processing, append to cons.buf,
 // wake up consoleread() if a whole line has arrived.
 //
+
+uint nenter_count;
+
 void
 consoleintr(int c)
 {
@@ -169,6 +172,8 @@ consoleintr(int c)
   default:
     if (c != 0 && cons.e - cons.r < INPUT_BUF_SIZE) {
       c = (c == '\r') ? '\n' : c;
+
+      if (c == '\n') nenter_count++;
 
       // echo back to the user.
       consputc(c);

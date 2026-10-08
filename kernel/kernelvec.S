@@ -62,3 +62,107 @@ kernelvec:
 
         # return to whatever we were doing in the kernel.
         sret
+
+.globl machinevec
+machinevec:
+
+        # mepc 4 증가
+        csrr t0, mepc
+        addi t0, t0, 4
+        csrw mepc, t0
+
+        li t0, 24
+        beq a7, t0, handle_getpmpaddr
+        li t0, 25
+        beq a7, t0, handle_getpmpcfg
+        li a0, -1
+        mret
+
+handle_getpmpaddr:
+
+        li t0, 0
+        beq a0, t0, read_pmpaddr0
+        li t0, 1
+        beq a0, t0, read_pmpaddr1
+        li t0, 2
+        beq a0, t0, read_pmpaddr2
+        li t0, 3
+        beq a0, t0, read_pmpaddr3
+        li a0, -1
+        mret
+
+read_pmpaddr0:
+        csrr a0, pmpaddr0
+        j process_pmpaddr
+
+read_pmpaddr1:
+        csrr a0, pmpaddr1
+        j process_pmpaddr
+
+read_pmpaddr2:
+        csrr a0, pmpaddr2
+        j process_pmpaddr
+
+read_pmpaddr3:
+        csrr a0, pmpaddr3
+        j process_pmpaddr
+
+process_pmpaddr:
+        slli a0, a0, 2
+        li  t0, 0x00FFFFFFFFFFFFFF
+        and a0, a0, t0
+        mret
+
+handle_getpmpcfg:
+        li t0, 0
+        beq a0, t0, read_pmpcfg0
+        li t0, 1
+        beq a0, t0, read_pmpcfg1
+        li t0, 2
+        beq a0, t0, read_pmpcfg2
+        li t0, 3
+        beq a0, t0, read_pmpcfg3
+        li a0, -1
+        mret
+
+read_pmpcfg0:
+        csrr a0, pmpcfg0
+        li  t0, 0x00000000000000FF
+        and a0, a0, t0
+        mret
+
+read_pmpcfg1:
+        csrr a0, pmpcfg0
+        li  t0, 0x000000000000FF00
+        and a0, a0, t0
+        srli a0, a0, 8
+        mret
+
+read_pmpcfg2:
+        csrr a0, pmpcfg0
+        li  t0, 0x0000000000FF0000
+        and a0, a0, t0
+        srli a0, a0, 16
+        mret
+
+read_pmpcfg3:
+        csrr a0, pmpcfg0
+        li  t0, 0x00000000FF000000
+        and a0, a0, t0
+        srli a0, a0, 24
+        mret
+
+
+.globl mcall_getpmpaddr
+mcall_getpmpaddr:
+
+        li a7, 24
+        ecall
+        ret
+
+.globl mcall_getpmpcfg
+mcall_getpmpcfg:
+
+        li a7, 25
+        ecall
+        ret
