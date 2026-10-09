@@ -124,6 +124,10 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  
+  p->runtime = 0;
+  p->period = 0;
+  p->deadline = 0;
 
   // Allocate a trapframe page.
   if ((p->trapframe = (struct trapframe *)kalloc()) == 0) {
@@ -431,6 +435,10 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
 
+  //deadline이 같을 때 이전에 실행하던 process우선
+  struct proc *previous = 0;
+  int next = 0;
+
   c->proc = 0;
   for (;;) {
     // The most recent process to run may have had interrupts
@@ -441,8 +449,59 @@ scheduler(void)
     intr_on();
     intr_off();
 
-    int found = 0;
+
+    // RT 프로세스 다시 깨우기 & 가장 deadline이 빠른 proc 찾기
+    uint now;
+
+    uint best_deadline = 0;
+    struct proc *best = 0;
+    int best_pid = 0;
+
+    acquire(&tickslock);
+    now = ticks;
+    release(&tickslock);
+
     for (p = proc; p < &proc[NPROC]; p++) {
+
+      acquire(&p->lock);
+      
+      if (p->period > 0 && p->runtime > 0) {
+        if (p->state == SLEEPING && now >= p->deadline) {
+          p->deadline += p->period;
+          p->state = RUNNABLE;
+        }
+        if (p->state == RUNNABLE) {
+          if (best== 0 || p->deadline < best_deadline || (p->deadline == best_deadline && best != previous && (p == previous || p->pid < best_pid))) {
+            best_deadline = p->deadline;
+            best = p;
+            best_pid = p->pid;
+          }
+        }
+      }
+
+      release(&p->lock);
+    }
+    //
+
+    if (best != 0) {
+      acquire(&best->lock);
+      best->state = RUNNING;
+      c->proc = best;
+      swtch(&c->context, &best->context);
+
+      mycpu()->intena = 0;
+      
+      previous = best;
+      c->proc = 0;
+      release(&best->lock);
+      continue;
+    } 
+
+    int found = 0;
+    for (int i = 0; i < NPROC; i++) {
+      int index = (next + i) % NPROC;
+      p = &proc[index];
+
       acquire(&p->lock);
       if (p->state == RUNNABLE) {
         // Switch to chosen process.  It is the process's job
@@ -457,8 +516,12 @@ scheduler(void)
 
         // Process is done running for now.
         // It should have changed its p->state before coming back.
+        next = (index + 1) % NPROC;
+        previous= p;
         c->proc = 0;
         found = 1;
+        release(&p->lock);
+        break;
       }
       release(&p->lock);
     }
@@ -698,4 +761,51 @@ procdump(void)
     printk("%d %s %s", p->pid, state, p->name);
     printk("\n");
   }
+}
+
+int
+ksched_setattr(int pid, int runtime, int period) {
+
+  struct proc *p;
+  uint now;
+
+  if (pid == 0) pid = myproc()->pid;
+
+  acquire(&tickslock);
+  now = ticks;
+  release(&tickslock);
+
+  for (p = proc; p < &proc[NPROC]; p++) {
+
+    acquire(&p->lock);
+    
+    if (p->pid == pid && p->state != UNUSED) {
+      p->runtime = runtime;
+      p->period = period;
+      p->deadline = now + period;
+      release(&p->lock);
+      return 0;
+    }
+
+    release(&p->lock);
+  }
+
+  return -1;
+}
+
+void ksched_yield(void) {
+  
+  struct proc *p = myproc();
+
+  acquire(&p->lock);
+
+  if (p->runtime > 0 && p->period > 0) {
+    p->state = SLEEPING;
+  } else {
+    p->state = RUNNABLE;
+  }
+
+  sched();
+  release(&p->lock);
+
 }

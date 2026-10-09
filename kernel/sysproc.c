@@ -117,25 +117,26 @@ sys_sched_setattr(void)
 {
 
   // FILL HERE
+  int pid;
+  int runtime;
+  int period;
 
+  argint(0, &pid);
+  argint(1, &runtime);
+  argint(2, &period);
 
+  if (runtime >= period) return -1;
+  if (runtime <= 0) return -1;
+  if (period <= 0) return -1;
 
-
-
-  return 0;
+  return ksched_setattr(pid, runtime, period);
 }
 
 uint64
 sys_sched_yield(void)
 {
 
-  // MODIFY THIS
-
-
-
-  yield();
-
-
+  ksched_yield();
   return 0;
 }
 

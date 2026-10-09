@@ -106,6 +106,8 @@ void            procdump(void);
 #ifdef SNU
 int             sched_setattr(int pid, int runtime, int period);
 void            sched_yield(void);
+int             ksched_setattr(int pid, int runtime, int period);
+void            ksched_yield(void);
 #endif
 
 // swtch.S

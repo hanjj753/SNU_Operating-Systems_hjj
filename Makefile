@@ -1,6 +1,6 @@
 # SNU ----------------------------------------------------
 # Please specify your student ID:
-STUDENTID =
+STUDENTID = 2024-10189
 
 # Do not change the following PANUM
 PANUM = pa3
@@ -222,8 +222,10 @@ qemu-log: $K/kernel fs.img
 	$(QEMU) $(QEMUOPTS) | tee xv6.log
 	@echo "*** The output of xv6 is logged in the 'xv6.log' file." 1>&2
 
+PYTHON ?= python3
+
 png: xv6.log
-	./graph.py xv6.log graph.png
+	$(PYTHON) graph.py xv6.log graph.png
 
 TARBALL = ../xv6-$(_PANUM)-$(_STUDENTID).tar.gz
 FILES = ./Makefile ./$K ./$U ./mkfs
