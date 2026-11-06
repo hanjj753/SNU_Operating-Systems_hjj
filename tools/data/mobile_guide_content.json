@@ -1,0 +1,4251 @@
+{
+  "schema_version": 1,
+  "source_pdf": "D:\\Workspace\\xv6-riscv-snu\\tmp\\pdfs\\old_guide.pdf",
+  "page_count": 31,
+  "block_count": 234,
+  "source_pages_represented": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "blocks_by_kind": {
+    "small": 12,
+    "title": 1,
+    "body": 37,
+    "sub": 31,
+    "item": 28,
+    "note": 4,
+    "section": 9,
+    "code_label": 34,
+    "code": 34,
+    "q": 22,
+    "answer": 22
+  },
+  "blocks": [
+    {
+      "kind": "small",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 51.9,
+      "end_top": 51.9,
+      "lines": [
+        "4190.307 / FALL 2026"
+      ],
+      "id": 1,
+      "text": "4190.307 / FALL 2026"
+    },
+    {
+      "kind": "title",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 72.4,
+      "end_top": 102.4,
+      "lines": [
+        "xv6 + PA1-PA3",
+        "코드 읽기"
+      ],
+      "id": 2,
+      "text": "xv6 + PA1-PA3\n코드 읽기"
+    },
+    {
+      "kind": "body",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 142.1,
+      "end_top": 158.6,
+      "lines": [
+        "1부를 제외한 독립형 2부 · 스마트폰에서 읽기 쉬운 판형 · 제출 코드와",
+        "기출형 해설 수록"
+      ],
+      "id": 3,
+      "text": "1부를 제외한 독립형 2부 · 스마트폰에서 읽기 쉬운 판형 · 제출 코드와 기출형 해설 수록"
+    },
+    {
+      "kind": "sub",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 189.18,
+      "end_top": 189.18,
+      "lines": [
+        "이 노트가 답하려는 질문"
+      ],
+      "id": 4,
+      "text": "이 노트가 답하려는 질문"
+    },
+    {
+      "kind": "item",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 209.84,
+      "end_top": 209.84,
+      "lines": [
+        "• 트랩 직후에는 누가 어떤 레지스터와 페이지 테이블을 바꾸는가?"
+      ],
+      "id": 5,
+      "text": "• 트랩 직후에는 누가 어떤 레지스터와 페이지 테이블을 바꾸는가?"
+    },
+    {
+      "kind": "item",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 230.64,
+      "end_top": 230.64,
+      "lines": [
+        "• fork/wait/sched/sleep의 상태 전이는 코드에서 어디에 나타나는가?"
+      ],
+      "id": 6,
+      "text": "• fork/wait/sched/sleep의 상태 전이는 코드에서 어디에 나타나는가?"
+    },
+    {
+      "kind": "item",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 251.44,
+      "end_top": 251.44,
+      "lines": [
+        "• Sv39 주소 변환과 lazy page fault는 어떻게 연결되는가?"
+      ],
+      "id": 7,
+      "text": "• Sv39 주소 변환과 lazy page fault는 어떻게 연결되는가?"
+    },
+    {
+      "kind": "item",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 272.24,
+      "end_top": 272.24,
+      "lines": [
+        "• 내 PA1-PA3 코드가 일반 xv6 경로를 어떻게 바꾸는가?"
+      ],
+      "id": 8,
+      "text": "• 내 PA1-PA3 코드가 일반 xv6 경로를 어떻게 바꾸는가?"
+    },
+    {
+      "kind": "sub",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 299.38,
+      "end_top": 299.38,
+      "lines": [
+        "최근 기출이 보여 준 우선순위"
+      ],
+      "id": 9,
+      "text": "최근 기출이 보여 준 우선순위"
+    },
+    {
+      "kind": "body",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 320.1,
+      "end_top": 350.5,
+      "lines": [
+        "공유된 2023-2·2024-1·2024-2·2025-2 중간고사 4회 모두에서 trap/syscall/xv6 코드",
+        "읽기와 주소 변환·VM 장문이 확인됐다. 스케줄 타임라인도 3회 등장했다. 이번 문서는",
+        "이 형식을 연습 문제로 재구성했다."
+      ],
+      "id": 10,
+      "text": "공유된 2023-2·2024-1·2024-2·2025-2 중간고사 4회 모두에서 trap/syscall/xv6 코드 읽기와 주소 변환·VM 장문이 확인됐다. 스케줄 타임라인도 3회 등장했다. 이번 문서는 이 형식을 연습 문제로 재구성했다."
+    },
+    {
+      "kind": "note",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 372.58,
+      "end_top": 386.68,
+      "lines": [
+        "과거 PA의 이름이 같아도 구현 주제는 다를 수 있다. 특히 2025-2의 PA2는 IPI, 2024-2의",
+        "PA3는 SNULE다. 아래 PA2(PMP)·PA3(EDF)의 답은 이번 학기 제출 브랜치 기준이다."
+      ],
+      "id": 11,
+      "text": "과거 PA의 이름이 같아도 구현 주제는 다를 수 있다. 특히 2025-2의 PA2는 IPI, 2024-2의 PA3는 SNULE다. 아래 PA2(PMP)·PA3(EDF)의 답은 이번 학기 제출 브랜치 기준이다."
+    },
+    {
+      "kind": "small",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 407.68,
+      "end_top": 433.88,
+      "lines": [
+        "코드 박스는 해당 Git 브랜치의 실제 파일에서 발췌했다. 공간을 위해 주석·빈 줄을 일부 생략했고, ...는 중간 생략, 들여쓴 이어지는 줄은 지면용 줄바꿈이다. 풀이에는 생략 부분에 의존하는 주장을 넣지 않았다."
+      ],
+      "id": 12,
+      "text": "코드 박스는 해당 Git 브랜치의 실제 파일에서 발췌했다. 공간을 위해 주석·빈 줄을 일부 생략했고, ...는 중간 생략, 들여쓴 이어지는 줄은 지면용 줄바꿈이다. 풀이에는 생략 부분에 의존하는 주장을 넣지 않았다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 459.48,
+      "end_top": 459.48,
+      "lines": [
+        "차례"
+      ],
+      "id": 13,
+      "text": "차례"
+    },
+    {
+      "kind": "body",
+      "source_page": 1,
+      "source_pages": [
+        1
+      ],
+      "start_top": 480.2,
+      "end_top": 495.4,
+      "lines": [
+        "01 기출형 핵심 지도 → 02 트랩·시스템 콜 → 03 프로세스·스케줄링 → 04 주소",
+        "변환·메모리 → 05 PA1 → 06 PA2 → 07 PA3 → 08 예상 문제·해설 → 09 3분 카드"
+      ],
+      "id": 14,
+      "text": "01 기출형 핵심 지도 → 02 트랩·시스템 콜 → 03 프로세스·스케줄링 → 04 주소 변환·메모리 → 05 PA1 → 06 PA2 → 07 PA3 → 08 예상 문제·해설 → 09 3분 카드"
+    },
+    {
+      "kind": "section",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 53.12,
+      "end_top": 53.12,
+      "lines": [
+        "01 · 먼저 그리는 전체 지도"
+      ],
+      "id": 15,
+      "text": "01 · 먼저 그리는 전체 지도"
+    },
+    {
+      "kind": "small",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 83.18,
+      "end_top": 83.18,
+      "lines": [
+        "시험장에서 순서를 잃지 않기 위한 1쪽짜리 실행 경로"
+      ],
+      "id": 16,
+      "text": "시험장에서 순서를 잃지 않기 위한 1쪽짜리 실행 경로"
+    },
+    {
+      "kind": "sub",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 108.78,
+      "end_top": 108.78,
+      "lines": [
+        "사용자 시스템 콜"
+      ],
+      "id": 17,
+      "text": "사용자 시스템 콜"
+    },
+    {
+      "kind": "body",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 129.5,
+      "end_top": 175.1,
+      "lines": [
+        "user stub(a7=번호, a0-a5=인자) → ecall → 하드웨어가 S-mode·sepc/scause/sstatus",
+        "설정 → stvec의 uservec(아직 user page table) → trapframe 저장·kernel satp 전환 →",
+        "usertrap() → syscall() → trapframe->a0 반환값 → prepare_return() → userret →",
+        "sret."
+      ],
+      "id": 18,
+      "text": "user stub(a7=번호, a0-a5=인자) → ecall → 하드웨어가 S-mode·sepc/scause/sstatus 설정 → stvec의 uservec(아직 user page table) → trapframe 저장·kernel satp 전환 → usertrap() → syscall() → trapframe->a0 반환값 → prepare_return() → userret → sret."
+    },
+    {
+      "kind": "sub",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 202.58,
+      "end_top": 202.58,
+      "lines": [
+        "타이머가 스케줄러를 부를 때"
+      ],
+      "id": 19,
+      "text": "타이머가 스케줄러를 부를 때"
+    },
+    {
+      "kind": "body",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 223.3,
+      "end_top": 253.7,
+      "lines": [
+        "timer interrupt → devintr()가 2 반환 → usertrap()/kerneltrap()의 yield() →",
+        "p->state=RUNNABLE → sched() → swtch() → scheduler() → 다음 RUNNABLE 선택.",
+        "PA3에서는 먼저 RT의 deadline을 검사하고, 없으면 일반 RR을 쓴다."
+      ],
+      "id": 20,
+      "text": "timer interrupt → devintr()가 2 반환 → usertrap()/kerneltrap()의 yield() → p->state=RUNNABLE → sched() → swtch() → scheduler() → 다음 RUNNABLE 선택. PA3에서는 먼저 RT의 deadline을 검사하고, 없으면 일반 RR을 쓴다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 281.18,
+      "end_top": 281.18,
+      "lines": [
+        "메모리에 처음 접근할 때"
+      ],
+      "id": 21,
+      "text": "메모리에 처음 접근할 때"
+    },
+    {
+      "kind": "body",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 301.9,
+      "end_top": 332.3,
+      "lines": [
+        "VA = VPN[2]|VPN[1]|VPN[0]|offset → satp가 가리킨 3단계 page table을 walk → leaf",
+        "PTE의 PPN + offset → PA. PTE가 없고 유효한 lazy 범위면 page fault(scause 13/15)",
+        "→ vmfault()가 새 0 페이지를 매핑 → 같은 명령 재실행."
+      ],
+      "id": 22,
+      "text": "VA = VPN[2]|VPN[1]|VPN[0]|offset → satp가 가리킨 3단계 page table을 walk → leaf PTE의 PPN + offset → PA. PTE가 없고 유효한 lazy 범위면 page fault(scause 13/15) → vmfault()가 새 0 페이지를 매핑 → 같은 명령 재실행."
+    },
+    {
+      "kind": "sub",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 359.78,
+      "end_top": 359.78,
+      "lines": [
+        "기출에서 반복된 코드 읽기"
+      ],
+      "id": 23,
+      "text": "기출에서 반복된 코드 읽기"
+    },
+    {
+      "kind": "item",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 380.44,
+      "end_top": 380.44,
+      "lines": [
+        "• 2023-2 p.2 Q2: 하드웨어가 자동 수행하는 일과 uservec 소프트웨어의 일을 분리."
+      ],
+      "id": 24,
+      "text": "• 2023-2 p.2 Q2: 하드웨어가 자동 수행하는 일과 uservec 소프트웨어의 일을 분리."
+    },
+    {
+      "kind": "item",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 401.24,
+      "end_top": 401.24,
+      "lines": [
+        "• 2024-2 p.2 Q2: uservec 첫 csrw와 sscratch, stvec, sepc의 값을 추적."
+      ],
+      "id": 25,
+      "text": "• 2024-2 p.2 Q2: uservec 첫 csrw와 sscratch, stvec, sepc의 값을 추적."
+    },
+    {
+      "kind": "item",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 422.04,
+      "end_top": 422.04,
+      "lines": [
+        "• 2023-2 p.6 Q6: per-process / per-core / per-system 자료구조 분류."
+      ],
+      "id": 26,
+      "text": "• 2023-2 p.6 Q6: per-process / per-core / per-system 자료구조 분류."
+    },
+    {
+      "kind": "item",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 442.84,
+      "end_top": 442.84,
+      "lines": [
+        "• 2024-1 p.5 Q4: EDF 작업의 release·deadline을 놓고 타임라인 작성."
+      ],
+      "id": 27,
+      "text": "• 2024-1 p.5 Q4: EDF 작업의 release·deadline을 놓고 타임라인 작성."
+    },
+    {
+      "kind": "item",
+      "source_page": 2,
+      "source_pages": [
+        2
+      ],
+      "start_top": 463.64,
+      "end_top": 463.64,
+      "lines": [
+        "• 2025-2 p.6 Q5: a7과 a0, M-mode trap의 PC 전진·pending 처리 구분."
+      ],
+      "id": 28,
+      "text": "• 2025-2 p.6 Q5: a7과 a0, M-mode trap의 PC 전진·pending 처리 구분."
+    },
+    {
+      "kind": "section",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 70.12,
+      "end_top": 70.12,
+      "lines": [
+        "02 · 트랩: 하드웨어와 소프트웨어"
+      ],
+      "id": 29,
+      "text": "02 · 트랩: 하드웨어와 소프트웨어"
+    },
+    {
+      "kind": "small",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 100.18,
+      "end_top": 100.18,
+      "lines": [
+        "기출에서 가장 직접적으로 코드 실행 순서를 묻는 영역"
+      ],
+      "id": 30,
+      "text": "기출에서 가장 직접적으로 코드 실행 순서를 묻는 영역"
+    },
+    {
+      "kind": "sub",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 125.78,
+      "end_top": 125.78,
+      "lines": [
+        "ecall 직후 하드웨어가 한 일"
+      ],
+      "id": 31,
+      "text": "ecall 직후 하드웨어가 한 일"
+    },
+    {
+      "kind": "body",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 146.5,
+      "end_top": 192.1,
+      "lines": [
+        "U→S trap에서는 특권이 S로 바뀌고 PC가 stvec으로 간다. 이전 PC는 sepc, 원인은",
+        "scause에 기록된다. SIE는 꺼진다. 그러나 하드웨어는 사용자 레지스터를 trapframe에",
+        "저장하거나, sp를 커널 스택으로 바꾸거나, satp를 커널 페이지 테이블로 바꾸지",
+        "않는다. 이 셋은 xv6 코드의 일이다."
+      ],
+      "id": 32,
+      "text": "U→S trap에서는 특권이 S로 바뀌고 PC가 stvec으로 간다. 이전 PC는 sepc, 원인은 scause에 기록된다. SIE는 꺼진다. 그러나 하드웨어는 사용자 레지스터를 trapframe에 저장하거나, sp를 커널 스택으로 바꾸거나, satp를 커널 페이지 테이블로 바꾸지 않는다. 이 셋은 xv6 코드의 일이다."
+    },
+    {
+      "kind": "note",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 214.18,
+      "end_top": 228.28,
+      "lines": [
+        "ecall의 sepc는 ecall 명령 주소다. +4는 usertrap()에서 수행한다. 타이머 인터럽트의 sepc는",
+        "중단된 명령의 주소이며 임의로 +4 하면 안 된다."
+      ],
+      "id": 33,
+      "text": "ecall의 sepc는 ecall 명령 주소다. +4는 usertrap()에서 수행한다. 타이머 인터럽트의 sepc는 중단된 명령의 주소이며 임의로 +4 하면 안 된다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 254.78,
+      "end_top": 254.78,
+      "lines": [
+        "uservec 첫 두 명령: a0의 의미가 바뀐다"
+      ],
+      "id": 34,
+      "text": "uservec 첫 두 명령: a0의 의미가 바뀐다"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 275.16,
+      "end_top": 275.16,
+      "lines": [
+        "사용자 a0 임시 보존 | pa3:kernel/trampoline.S L30-38"
+      ],
+      "id": 35,
+      "text": "사용자 a0 임시 보존 | pa3:kernel/trampoline.S L30-38"
+    },
+    {
+      "kind": "code",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 290.03,
+      "end_top": 310.43,
+      "lines": [
+        "        csrw sscratch, a0",
+        "",
+        "        li a0, TRAPFRAME"
+      ],
+      "id": 36,
+      "text": "        csrw sscratch, a0\n\n        li a0, TRAPFRAME"
+    },
+    {
+      "kind": "body",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 324.7,
+      "end_top": 370.3,
+      "lines": [
+        "첫 csrw 이전 a0는 사용자 레지스터 값이다. csrw가 그 값을 sscratch에 보관한다.",
+        "이어 a0=TRAPFRAME 가상주소로 바꿔 레지스터 저장에 쓰고, 뒤에서 sscratch를",
+        "읽어 원래 a0도 trapframe에 저장한다. 첫 csrw 직전 sscratch의 이전 값에 별도",
+        "의미를 가정하면 안 된다."
+      ],
+      "id": 37,
+      "text": "첫 csrw 이전 a0는 사용자 레지스터 값이다. csrw가 그 값을 sscratch에 보관한다. 이어 a0=TRAPFRAME 가상주소로 바꿔 레지스터 저장에 쓰고, 뒤에서 sscratch를 읽어 원래 a0도 trapframe에 저장한다. 첫 csrw 직전 sscratch의 이전 값에 별도 의미를 가정하면 안 된다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 392.16,
+      "end_top": 392.16,
+      "lines": [
+        "trapframe에서 커널 문맥을 읽고 satp 전환 | pa3:kernel/trampoline.S L70-98"
+      ],
+      "id": 38,
+      "text": "trapframe에서 커널 문맥을 읽고 satp 전환 | pa3:kernel/trampoline.S L70-98"
+    },
+    {
+      "kind": "code",
+      "source_page": 3,
+      "source_pages": [
+        3
+      ],
+      "start_top": 407.03,
+      "end_top": 580.43,
+      "lines": [
+        "        csrr t0, sscratch",
+        "        sd t0, 112(a0)",
+        "",
+        "        ld sp, 8(a0)",
+        "",
+        "        ld tp, 32(a0)",
+        "",
+        "        ld t0, 16(a0)",
+        "",
+        "        ld t1, 0(a0)",
+        "",
+        "        sfence.vma zero, zero",
+        "",
+        "        csrw satp, t1",
+        "",
+        "        sfence.vma zero, zero",
+        "",
+        "        jalr t0"
+      ],
+      "id": 39,
+      "text": "        csrr t0, sscratch\n        sd t0, 112(a0)\n\n        ld sp, 8(a0)\n\n        ld tp, 32(a0)\n\n        ld t0, 16(a0)\n\n        ld t1, 0(a0)\n\n        sfence.vma zero, zero\n\n        csrw satp, t1\n\n        sfence.vma zero, zero\n\n        jalr t0"
+    },
+    {
+      "kind": "body",
+      "source_page": 4,
+      "source_pages": [
+        4
+      ],
+      "start_top": 51.9,
+      "end_top": 97.5,
+      "lines": [
+        "TRAMPOLINE과 TRAPFRAME은 사용자 페이지 테이블에 높은 가상주소로 매핑된다.",
+        "uservec는 커널 페이지 테이블로 전환하기 전에도 실행돼야 하므로 trampoline",
+        "코드가 양쪽 페이지 테이블에서 같은 VA에 있다. 커널 sp/tp/trap 주소/satp 값은",
+        "trapframe의 kernel_* 필드에서 읽는다."
+      ],
+      "id": 40,
+      "text": "TRAMPOLINE과 TRAPFRAME은 사용자 페이지 테이블에 높은 가상주소로 매핑된다. uservec는 커널 페이지 테이블로 전환하기 전에도 실행돼야 하므로 trampoline 코드가 양쪽 페이지 테이블에서 같은 VA에 있다. 커널 sp/tp/trap 주소/satp 값은 trapframe의 kernel_* 필드에서 읽는다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 4,
+      "source_pages": [
+        4
+      ],
+      "start_top": 124.98,
+      "end_top": 124.98,
+      "lines": [
+        "C 코드: syscall·page fault·timer 분기"
+      ],
+      "id": 41,
+      "text": "C 코드: syscall·page fault·timer 분기"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 4,
+      "source_pages": [
+        4
+      ],
+      "start_top": 145.36,
+      "end_top": 145.36,
+      "lines": [
+        "usertrap()의 세 가지 주요 분기 | pa3:kernel/trap.c L49-75, 81-94"
+      ],
+      "id": 42,
+      "text": "usertrap()의 세 가지 주요 분기 | pa3:kernel/trap.c L49-75, 81-94"
+    },
+    {
+      "kind": "code",
+      "source_page": 4,
+      "source_pages": [
+        4
+      ],
+      "start_top": 160.23,
+      "end_top": 460.03,
+      "lines": [
+        "  struct proc *p = myproc();",
+        "",
+        "  p->trapframe->epc = r_sepc();",
+        "",
+        "  if (r_scause() == 8) {",
+        "",
+        "    if (killed(p))",
+        "      kexit(-1);",
+        "",
+        "    p->trapframe->epc += 4;",
+        "",
+        "    intr_on();",
+        "",
+        "    syscall();",
+        "  } else if ((which_dev = devintr()) != 0) {",
+        "  } else if ((r_scause() == 15 || r_scause() == 13) &&",
+        "             vmfault(p->pagetable, p->sz, r_stval(),",
+        "                     (r_scause() == 13) ? 1 : 0) != 0) {",
+        "  } else {",
+        "    ...",
+        "  if (killed(p))",
+        "    kexit(-1);",
+        "  if (which_dev == 2)",
+        "    yield();",
+        "",
+        "  prepare_return();",
+        "",
+        "  uint64 satp = MAKE_SATP(p->pagetable);",
+        "",
+        "  return satp;"
+      ],
+      "id": 43,
+      "text": "  struct proc *p = myproc();\n\n  p->trapframe->epc = r_sepc();\n\n  if (r_scause() == 8) {\n\n    if (killed(p))\n      kexit(-1);\n\n    p->trapframe->epc += 4;\n\n    intr_on();\n\n    syscall();\n  } else if ((which_dev = devintr()) != 0) {\n  } else if ((r_scause() == 15 || r_scause() == 13) &&\n             vmfault(p->pagetable, p->sz, r_stval(),\n                     (r_scause() == 13) ? 1 : 0) != 0) {\n  } else {\n    ...\n  if (killed(p))\n    kexit(-1);\n  if (which_dev == 2)\n    yield();\n\n  prepare_return();\n\n  uint64 satp = MAKE_SATP(p->pagetable);\n\n  return satp;"
+    },
+    {
+      "kind": "body",
+      "source_page": 4,
+      "source_pages": [
+        4
+      ],
+      "start_top": 474.3,
+      "end_top": 519.9,
+      "lines": [
+        "scause=8은 U-mode ecall이다. epc를 4 전진시키고 syscall()을 호출한다.",
+        "scause=13/15는 load/store page fault이며 vmfault()가 복구할 수 있다.",
+        "devintr()==2는 timer라서 yield()한다. 예외를 처리할 수 없으면 프로세스를 killed로",
+        "표시한다."
+      ],
+      "id": 44,
+      "text": "scause=8은 U-mode ecall이다. epc를 4 전진시키고 syscall()을 호출한다. scause=13/15는 load/store page fault이며 vmfault()가 복구할 수 있다. devintr()==2는 timer라서 yield()한다. 예외를 처리할 수 없으면 프로세스를 killed로 표시한다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "prepare_return(): 복귀 CSR과 다음 trap 준비 | pa3:kernel/trap.c L101-132"
+      ],
+      "id": 45,
+      "text": "prepare_return(): 복귀 CSR과 다음 trap 준비 | pa3:kernel/trap.c L101-132"
+    },
+    {
+      "kind": "code",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 66.43,
+      "end_top": 270.43,
+      "lines": [
+        "prepare_return(void)",
+        "{",
+        "  struct proc *p = myproc();",
+        "",
+        "  intr_off();",
+        "",
+        "  uint64 trampoline_uservec = TRAMPOLINE + (uservec - trampoline);",
+        "  w_stvec(trampoline_uservec);",
+        "",
+        "  p->trapframe->kernel_satp = r_satp();",
+        "  p->trapframe->kernel_sp = p->kstack + PGSIZE;",
+        "  p->trapframe->kernel_trap = (uint64)usertrap;",
+        "  p->trapframe->kernel_hartid = r_tp();",
+        "",
+        "  unsigned long x = r_sstatus();",
+        "  x &= ~SSTATUS_SPP;",
+        "  x |= SSTATUS_SPIE;",
+        "  w_sstatus(x);",
+        "",
+        "  w_sepc(p->trapframe->epc);",
+        "}"
+      ],
+      "id": 46,
+      "text": "prepare_return(void)\n{\n  struct proc *p = myproc();\n\n  intr_off();\n\n  uint64 trampoline_uservec = TRAMPOLINE + (uservec - trampoline);\n  w_stvec(trampoline_uservec);\n\n  p->trapframe->kernel_satp = r_satp();\n  p->trapframe->kernel_sp = p->kstack + PGSIZE;\n  p->trapframe->kernel_trap = (uint64)usertrap;\n  p->trapframe->kernel_hartid = r_tp();\n\n  unsigned long x = r_sstatus();\n  x &= ~SSTATUS_SPP;\n  x |= SSTATUS_SPIE;\n  w_sstatus(x);\n\n  w_sepc(p->trapframe->epc);\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 284.7,
+      "end_top": 315.1,
+      "lines": [
+        "stvec는 다시 uservec로, SPP=0은 복귀 목적 U-mode, SPIE=1은 U-mode에서",
+        "인터럽트 허용을 뜻한다. sepc에는 수정된 p->trapframe->epc를 쓴다. 이어",
+        "userret이 user satp와 사용자 레지스터를 복원하고 sret한다."
+      ],
+      "id": 47,
+      "text": "stvec는 다시 uservec로, SPP=0은 복귀 목적 U-mode, SPIE=1은 U-mode에서 인터럽트 허용을 뜻한다. sepc에는 수정된 p->trapframe->epc를 쓴다. 이어 userret이 user satp와 사용자 레지스터를 복원하고 sret한다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 336.96,
+      "end_top": 336.96,
+      "lines": [
+        "userret(): user satp, a0, sret | pa3:kernel/trampoline.S L100-114, 148-153"
+      ],
+      "id": 48,
+      "text": "userret(): user satp, a0, sret | pa3:kernel/trampoline.S L100-114, 148-153"
+    },
+    {
+      "kind": "code",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 351.83,
+      "end_top": 484.43,
+      "lines": [
+        ".globl userret",
+        "userret:",
+        "",
+        "        fence.i",
+        "",
+        "        sfence.vma zero, zero",
+        "        csrw satp, a0",
+        "        sfence.vma zero, zero",
+        "",
+        "        li a0, TRAPFRAME",
+        "    ...",
+        "        ld a0, 112(a0)",
+        "",
+        "        sret"
+      ],
+      "id": 49,
+      "text": ".globl userret\nuserret:\n\n        fence.i\n\n        sfence.vma zero, zero\n        csrw satp, a0\n        sfence.vma zero, zero\n\n        li a0, TRAPFRAME\n    ...\n        ld a0, 112(a0)\n\n        sret"
+    },
+    {
+      "kind": "sub",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 506.98,
+      "end_top": 506.98,
+      "lines": [
+        "시스템 콜 번호·인자·반환값"
+      ],
+      "id": 50,
+      "text": "시스템 콜 번호·인자·반환값"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 527.36,
+      "end_top": 527.36,
+      "lines": [
+        "사용자 stub의 세 명령 | pa3:user/usys.pl L19-21"
+      ],
+      "id": 51,
+      "text": "사용자 stub의 세 명령 | pa3:user/usys.pl L19-21"
+    },
+    {
+      "kind": "code",
+      "source_page": 5,
+      "source_pages": [
+        5
+      ],
+      "start_top": 542.23,
+      "end_top": 562.63,
+      "lines": [
+        "    print \" li a7, SYS_${name}\\n\";",
+        "    print \" ecall\\n\";",
+        "    print \" ret\\n\";"
+      ],
+      "id": 52,
+      "text": "    print \" li a7, SYS_${name}\\n\";\n    print \" ecall\\n\";\n    print \" ret\\n\";"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 6,
+      "source_pages": [
+        6
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "trapframe a0-a5 인자, a7 번호, a0 반환 | pa3:kernel/syscall.c L34-57, 146-160"
+      ],
+      "id": 53,
+      "text": "trapframe a0-a5 인자, a7 번호, a0 반환 | pa3:kernel/syscall.c L34-57, 146-160"
+    },
+    {
+      "kind": "code",
+      "source_page": 6,
+      "source_pages": [
+        6
+      ],
+      "start_top": 66.43,
+      "end_top": 427.43,
+      "lines": [
+        "static uint64",
+        "argraw(int n)",
+        "{",
+        "  struct proc *p = myproc();",
+        "  switch (n) {",
+        "  case 0:",
+        "    return p->trapframe->a0;",
+        "  case 1:",
+        "    return p->trapframe->a1;",
+        "  case 2:",
+        "    return p->trapframe->a2;",
+        "  case 3:",
+        "    return p->trapframe->a3;",
+        "  case 4:",
+        "    return p->trapframe->a4;",
+        "  case 5:",
+        "    return p->trapframe->a5;",
+        "  }",
+        "  panic(\"argraw\");",
+        "  return -1;",
+        "}",
+        "void",
+        "    ...",
+        "void",
+        "syscall(void)",
+        "{",
+        "  int num;",
+        "  struct proc *p = myproc();",
+        "",
+        "  num = p->trapframe->a7;",
+        "  if (num > 0 && num < NELEM(syscalls) && syscalls[num]) {",
+        "    p->trapframe->a0 = syscalls[num]();",
+        "  } else {",
+        "    printk(\"%d %s: unknown sys call %d\\n\", p->pid, p->name, num);",
+        "    p->trapframe->a0 = -1;",
+        "  }"
+      ],
+      "id": 54,
+      "text": "static uint64\nargraw(int n)\n{\n  struct proc *p = myproc();\n  switch (n) {\n  case 0:\n    return p->trapframe->a0;\n  case 1:\n    return p->trapframe->a1;\n  case 2:\n    return p->trapframe->a2;\n  case 3:\n    return p->trapframe->a3;\n  case 4:\n    return p->trapframe->a4;\n  case 5:\n    return p->trapframe->a5;\n  }\n  panic(\"argraw\");\n  return -1;\n}\nvoid\n    ...\nvoid\nsyscall(void)\n{\n  int num;\n  struct proc *p = myproc();\n\n  num = p->trapframe->a7;\n  if (num > 0 && num < NELEM(syscalls) && syscalls[num]) {\n    p->trapframe->a0 = syscalls[num]();\n  } else {\n    printk(\"%d %s: unknown sys call %d\\n\", p->pid, p->name, num);\n    p->trapframe->a0 = -1;\n  }"
+    },
+    {
+      "kind": "body",
+      "source_page": 6,
+      "source_pages": [
+        6
+      ],
+      "start_top": 441.7,
+      "end_top": 472.1,
+      "lines": [
+        "사용자 함수의 첫 인자는 a0다. 시스템 콜 번호는 a7이다. syscall()은 trapframe->a7로",
+        "함수 표를 찾고, 결과를 trapframe->a0에 덮어쓴다. 따라서 userret에서 복원되는",
+        "a0가 사용자에게 보이는 반환값이다."
+      ],
+      "id": 55,
+      "text": "사용자 함수의 첫 인자는 a0다. 시스템 콜 번호는 a7이다. syscall()은 trapframe->a7로 함수 표를 찾고, 결과를 trapframe->a0에 덮어쓴다. 따라서 userret에서 복원되는 a0가 사용자에게 보이는 반환값이다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 6,
+      "source_pages": [
+        6
+      ],
+      "start_top": 499.58,
+      "end_top": 499.58,
+      "lines": [
+        "U-mode ecall과 S-mode ecall 비교"
+      ],
+      "id": 56,
+      "text": "U-mode ecall과 S-mode ecall 비교"
+    },
+    {
+      "kind": "item",
+      "source_page": 6,
+      "source_pages": [
+        6
+      ],
+      "start_top": 520.24,
+      "end_top": 520.24,
+      "lines": [
+        "• U→S: scause=8, stvec=uservec, sepc는 usertrap에서 +4, 마지막은 sret."
+      ],
+      "id": 57,
+      "text": "• U→S: scause=8, stvec=uservec, sepc는 usertrap에서 +4, 마지막은 sret."
+    },
+    {
+      "kind": "item",
+      "source_page": 6,
+      "source_pages": [
+        6
+      ],
+      "start_top": 541.04,
+      "end_top": 555.84,
+      "lines": [
+        "• S→M(PA2): mcause=9, mtvec=machinevec, mepc는 machinevec에서 +4, 마지막은",
+        "mret."
+      ],
+      "id": 58,
+      "text": "• S→M(PA2): mcause=9, mtvec=machinevec, mepc는 machinevec에서 +4, 마지막은 mret."
+    },
+    {
+      "kind": "item",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 51.84,
+      "end_top": 66.64,
+      "lines": [
+        "• 비동기 인터럽트: 중단 명령을 재개하므로 PC를 무조건 +4 하지 않는다. 원인 장치의",
+        "pending도 필요한 방식으로 해제해야 재진입을 피한다."
+      ],
+      "id": 59,
+      "text": "• 비동기 인터럽트: 중단 명령을 재개하므로 PC를 무조건 +4 하지 않는다. 원인 장치의 pending도 필요한 방식으로 해제해야 재진입을 피한다."
+    },
+    {
+      "kind": "note",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 87.38,
+      "end_top": 101.48,
+      "lines": [
+        "2025-2 기출의 M software interrupt 문제는 이번 PA2의 S-mode ecall과 다른 원인이다.",
+        "'M-mode trap'이라는 공통점만으로 동일한 첫 명령·pending 처리를 답하면 안 된다."
+      ],
+      "id": 60,
+      "text": "2025-2 기출의 M software interrupt 문제는 이번 PA2의 S-mode ecall과 다른 원인이다. 'M-mode trap'이라는 공통점만으로 동일한 첫 명령·pending 처리를 답하면 안 된다."
+    },
+    {
+      "kind": "section",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 140.92,
+      "end_top": 140.92,
+      "lines": [
+        "03 · 프로세스, 문맥 교환, 잠들기"
+      ],
+      "id": 61,
+      "text": "03 · 프로세스, 문맥 교환, 잠들기"
+    },
+    {
+      "kind": "small",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 170.98,
+      "end_top": 170.98,
+      "lines": [
+        "fork/wait 상태 추적과 자료구조 범위 분류 대비"
+      ],
+      "id": 62,
+      "text": "fork/wait 상태 추적과 자료구조 범위 분류 대비"
+    },
+    {
+      "kind": "sub",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 196.58,
+      "end_top": 196.58,
+      "lines": [
+        "누가 소유하는 자료인가"
+      ],
+      "id": 63,
+      "text": "누가 소유하는 자료인가"
+    },
+    {
+      "kind": "item",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 217.24,
+      "end_top": 232.04,
+      "lines": [
+        "• 프로세스별: struct proc, pagetable, trapframe, kernel stack, context, sz, ofile/cwd. 한",
+        "프로세스의 사용자 상태와 커널 실행 재개 지점을 보유한다."
+      ],
+      "id": 64,
+      "text": "• 프로세스별: struct proc, pagetable, trapframe, kernel stack, context, sz, ofile/cwd. 한 프로세스의 사용자 상태와 커널 실행 재개 지점을 보유한다."
+    },
+    {
+      "kind": "item",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 252.84,
+      "end_top": 267.64,
+      "lines": [
+        "• CPU별: struct cpu의 현재 proc와 scheduler context, noff/intena. 같은 CPU에서",
+        "다음에 무엇을 돌릴지 기억한다."
+      ],
+      "id": 65,
+      "text": "• CPU별: struct cpu의 현재 proc와 scheduler context, noff/intena. 같은 CPU에서 다음에 무엇을 돌릴지 기억한다."
+    },
+    {
+      "kind": "item",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 288.44,
+      "end_top": 303.24,
+      "lines": [
+        "• 시스템 전체: proc[NPROC], cpus[NCPU], kernel_pagetable, trampoline 코드, ticks,",
+        "syscalls[] 함수 표."
+      ],
+      "id": 66,
+      "text": "• 시스템 전체: proc[NPROC], cpus[NCPU], kernel_pagetable, trampoline 코드, ticks, syscalls[] 함수 표."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 7,
+      "source_pages": [
+        7
+      ],
+      "start_top": 323.76,
+      "end_top": 323.76,
+      "lines": [
+        "struct cpu와 struct proc 핵심 필드 | pa3:kernel/proc.h L21-27, 79-108"
+      ],
+      "id": 67,
+      "text": "struct cpu와 struct proc 핵심 필드 | pa3:kernel/proc.h L21-27, 79-108"
+    },
+    {
+      "kind": "code",
+      "source_page": 7,
+      "source_pages": [
+        7,
+        8
+      ],
+      "start_top": 338.63,
+      "end_top": 113.03,
+      "lines": [
+        "struct cpu {",
+        "  struct proc *proc;",
+        "  struct context context;",
+        "  int noff;",
+        "  int intena;",
+        "};",
+        "    ...",
+        "enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };",
+        "",
+        "struct proc {",
+        "  struct spinlock lock;",
+        "",
+        "  enum procstate state;",
+        "  void *chan;",
+        "  int killed;",
+        "  int xstate;",
+        "  int pid;",
+        "",
+        "  int runtime;",
+        "  int period;",
+        "  uint deadline;",
+        "  struct proc *parent;",
+        "",
+        "  uint64 kstack;",
+        "  uint64 sz;",
+        "  pagetable_t pagetable;",
+        "  struct trapframe *trapframe;",
+        "  struct context context;",
+        "  struct file *ofile[NOFILE];",
+        "  struct inode *cwd;",
+        "  char name[16];",
+        "};"
+      ],
+      "id": 68,
+      "text": "struct cpu {\n  struct proc *proc;\n  struct context context;\n  int noff;\n  int intena;\n};\n    ...\nenum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };\n\nstruct proc {\n  struct spinlock lock;\n\n  enum procstate state;\n  void *chan;\n  int killed;\n  int xstate;\n  int pid;\n\n  int runtime;\n  int period;\n  uint deadline;\n  struct proc *parent;\n\n  uint64 kstack;\n  uint64 sz;\n  pagetable_t pagetable;\n  struct trapframe *trapframe;\n  struct context context;\n  struct file *ofile[NOFILE];\n  struct inode *cwd;\n  char name[16];\n};"
+    },
+    {
+      "kind": "body",
+      "source_page": 8,
+      "source_pages": [
+        8
+      ],
+      "start_top": 127.3,
+      "end_top": 157.7,
+      "lines": [
+        "trapframe은 U→S 경계에서 사용자 레지스터를 보존한다. context는 swtch()가 커널",
+        "실행 스레드의 callee-saved 레지스터를 보존한다. 둘을 같은 문맥이라고 답하면 저장",
+        "시점과 목적을 놓친다."
+      ],
+      "id": 69,
+      "text": "trapframe은 U→S 경계에서 사용자 레지스터를 보존한다. context는 swtch()가 커널 실행 스레드의 callee-saved 레지스터를 보존한다. 둘을 같은 문맥이라고 답하면 저장 시점과 목적을 놓친다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 8,
+      "source_pages": [
+        8
+      ],
+      "start_top": 185.18,
+      "end_top": 185.18,
+      "lines": [
+        "fork(): 부모와 자식은 어디서 갈라지는가"
+      ],
+      "id": 70,
+      "text": "fork(): 부모와 자식은 어디서 갈라지는가"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 8,
+      "source_pages": [
+        8
+      ],
+      "start_top": 205.56,
+      "end_top": 205.56,
+      "lines": [
+        "kfork()의 복사와 두 반환값 | pa3:kernel/proc.c L274-308"
+      ],
+      "id": 71,
+      "text": "kfork()의 복사와 두 반환값 | pa3:kernel/proc.c L274-308"
+    },
+    {
+      "kind": "code",
+      "source_page": 8,
+      "source_pages": [
+        8
+      ],
+      "start_top": 220.43,
+      "end_top": 520.23,
+      "lines": [
+        "  if (uvmcopy(p->pagetable, np->pagetable, p->sz) < 0) {",
+        "    freeproc(np);",
+        "    release(&np->lock);",
+        "    return -1;",
+        "  }",
+        "  np->sz = p->sz;",
+        "",
+        "  *(np->trapframe) = *(p->trapframe);",
+        "",
+        "  np->trapframe->a0 = 0;",
+        "",
+        "  for (i = 0; i < NOFILE; i++)",
+        "    if (p->ofile[i])",
+        "      np->ofile[i] = filedup(p->ofile[i]);",
+        "  np->cwd = idup(p->cwd);",
+        "",
+        "  safestrcpy(np->name, p->name, sizeof(p->name));",
+        "",
+        "  pid = np->pid;",
+        "",
+        "  release(&np->lock);",
+        "  acquire(&wait_lock);",
+        "  np->parent = p;",
+        "  release(&wait_lock);",
+        "",
+        "  acquire(&np->lock);",
+        "  np->state = RUNNABLE;",
+        "  release(&np->lock);",
+        "",
+        "  return pid;"
+      ],
+      "id": 72,
+      "text": "  if (uvmcopy(p->pagetable, np->pagetable, p->sz) < 0) {\n    freeproc(np);\n    release(&np->lock);\n    return -1;\n  }\n  np->sz = p->sz;\n\n  *(np->trapframe) = *(p->trapframe);\n\n  np->trapframe->a0 = 0;\n\n  for (i = 0; i < NOFILE; i++)\n    if (p->ofile[i])\n      np->ofile[i] = filedup(p->ofile[i]);\n  np->cwd = idup(p->cwd);\n\n  safestrcpy(np->name, p->name, sizeof(p->name));\n\n  pid = np->pid;\n\n  release(&np->lock);\n  acquire(&wait_lock);\n  np->parent = p;\n  release(&wait_lock);\n\n  acquire(&np->lock);\n  np->state = RUNNABLE;\n  release(&np->lock);\n\n  return pid;"
+    },
+    {
+      "kind": "body",
+      "source_page": 8,
+      "source_pages": [
+        8
+      ],
+      "start_top": 534.5,
+      "end_top": 580.1,
+      "lines": [
+        "uvmcopy는 현재 존재하는 사용자 페이지를 새 물리 페이지에 복사한다(COW 아님).",
+        "trapframe을 복사한 뒤 자식의 a0=0으로 고친다. 부모는 kfork()가 반환한 자식 PID를",
+        "syscall()의 a0로 받는다. 파일 디스크립터는 filedup으로 같은 file 구조의 참조 수를",
+        "늘린다. 자식은 마지막에 RUNNABLE이 된다."
+      ],
+      "id": 73,
+      "text": "uvmcopy는 현재 존재하는 사용자 페이지를 새 물리 페이지에 복사한다(COW 아님). trapframe을 복사한 뒤 자식의 a0=0으로 고친다. 부모는 kfork()가 반환한 자식 PID를 syscall()의 a0로 받는다. 파일 디스크립터는 filedup으로 같은 file 구조의 참조 수를 늘린다. 자식은 마지막에 RUNNABLE이 된다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 9,
+      "source_pages": [
+        9
+      ],
+      "start_top": 52.18,
+      "end_top": 52.18,
+      "lines": [
+        "exit/wait와 ZOMBIE"
+      ],
+      "id": 74,
+      "text": "exit/wait와 ZOMBIE"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 9,
+      "source_pages": [
+        9
+      ],
+      "start_top": 72.56,
+      "end_top": 72.56,
+      "lines": [
+        "ZOMBIE 전환과 부모의 자식 회수 | pa3:kernel/proc.c L351-368, 380-421"
+      ],
+      "id": 75,
+      "text": "ZOMBIE 전환과 부모의 자식 회수 | pa3:kernel/proc.c L351-368, 380-421"
+    },
+    {
+      "kind": "code",
+      "source_page": 9,
+      "source_pages": [
+        9,
+        10
+      ],
+      "start_top": 87.43,
+      "end_top": 72.23,
+      "lines": [
+        "  acquire(&wait_lock);",
+        "",
+        "  reparent(p);",
+        "",
+        "  wakeup(p->parent);",
+        "",
+        "  acquire(&p->lock);",
+        "",
+        "  p->xstate = status;",
+        "  p->state = ZOMBIE;",
+        "",
+        "  release(&wait_lock);",
+        "",
+        "  sched();",
+        "  panic(\"zombie exit\");",
+        "    ...",
+        "  acquire(&wait_lock);",
+        "",
+        "  for (;;) {",
+        "    havekids = 0;",
+        "    for (pp = proc; pp < &proc[NPROC]; pp++) {",
+        "      if (pp->parent == p) {",
+        "        acquire(&pp->lock);",
+        "",
+        "        havekids = 1;",
+        "        if (pp->state == ZOMBIE) {",
+        "          pid = pp->pid;",
+        "          if (addr != 0 &&",
+        "              copyout(p->pagetable, p->sz, addr, (char *)&pp->xstate,",
+        "                      sizeof(pp->xstate)) < 0) {",
+        "            release(&pp->lock);",
+        "            release(&wait_lock);",
+        "            return -1;",
+        "          }",
+        "          pp->parent = 0;",
+        "          freeproc(pp);",
+        "          release(&pp->lock);",
+        "          release(&wait_lock);",
+        "          return pid;",
+        "        }",
+        "        release(&pp->lock);",
+        "      }",
+        "    }",
+        "    if (!havekids || killed(p)) {",
+        "      release(&wait_lock);",
+        "      return -1;",
+        "    }",
+        "",
+        "    sleep_prepare(p);",
+        "    release(&wait_lock);",
+        "    sleep();",
+        "    acquire(&wait_lock);"
+      ],
+      "id": 76,
+      "text": "  acquire(&wait_lock);\n\n  reparent(p);\n\n  wakeup(p->parent);\n\n  acquire(&p->lock);\n\n  p->xstate = status;\n  p->state = ZOMBIE;\n\n  release(&wait_lock);\n\n  sched();\n  panic(\"zombie exit\");\n    ...\n  acquire(&wait_lock);\n\n  for (;;) {\n    havekids = 0;\n    for (pp = proc; pp < &proc[NPROC]; pp++) {\n      if (pp->parent == p) {\n        acquire(&pp->lock);\n\n        havekids = 1;\n        if (pp->state == ZOMBIE) {\n          pid = pp->pid;\n          if (addr != 0 &&\n              copyout(p->pagetable, p->sz, addr, (char *)&pp->xstate,\n                      sizeof(pp->xstate)) < 0) {\n            release(&pp->lock);\n            release(&wait_lock);\n            return -1;\n          }\n          pp->parent = 0;\n          freeproc(pp);\n          release(&pp->lock);\n          release(&wait_lock);\n          return pid;\n        }\n        release(&pp->lock);\n      }\n    }\n    if (!havekids || killed(p)) {\n      release(&wait_lock);\n      return -1;\n    }\n\n    sleep_prepare(p);\n    release(&wait_lock);\n    sleep();\n    acquire(&wait_lock);"
+    },
+    {
+      "kind": "body",
+      "source_page": 10,
+      "source_pages": [
+        10
+      ],
+      "start_top": 86.5,
+      "end_top": 132.1,
+      "lines": [
+        "자식의 exit은 즉시 proc 슬롯을 지우지 않고 ZOMBIE로 남긴다. 부모의 wait가 자식을",
+        "찾아 상태를 회수하고 freeproc한다. 아직 종료한 자식이 없으면 부모는 잠들고, 자식",
+        "종료 시 wakeup으로 다시 검사한다. 부모가 wait에 들어갈 때와 자식이 종료할 때의",
+        "순서 경합을 lock과 채널 등록으로 막는다."
+      ],
+      "id": 77,
+      "text": "자식의 exit은 즉시 proc 슬롯을 지우지 않고 ZOMBIE로 남긴다. 부모의 wait가 자식을 찾아 상태를 회수하고 freeproc한다. 아직 종료한 자식이 없으면 부모는 잠들고, 자식 종료 시 wakeup으로 다시 검사한다. 부모가 wait에 들어갈 때와 자식이 종료할 때의 순서 경합을 lock과 채널 등록으로 막는다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 10,
+      "source_pages": [
+        10
+      ],
+      "start_top": 159.58,
+      "end_top": 159.58,
+      "lines": [
+        "swtch(), sched(), yield()"
+      ],
+      "id": 78,
+      "text": "swtch(), sched(), yield()"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 10,
+      "source_pages": [
+        10
+      ],
+      "start_top": 179.96,
+      "end_top": 179.96,
+      "lines": [
+        "swtch: ra/sp/s0-s11의 저장·복원 | pa3:kernel/swtch.S L8-23, 25-40"
+      ],
+      "id": 79,
+      "text": "swtch: ra/sp/s0-s11의 저장·복원 | pa3:kernel/swtch.S L8-23, 25-40"
+    },
+    {
+      "kind": "code",
+      "source_page": 10,
+      "source_pages": [
+        10
+      ],
+      "start_top": 194.83,
+      "end_top": 525.23,
+      "lines": [
+        ".globl swtch",
+        "swtch:",
+        "        sd ra, 0(a0)",
+        "        sd sp, 8(a0)",
+        "        sd s0, 16(a0)",
+        "        sd s1, 24(a0)",
+        "        sd s2, 32(a0)",
+        "        sd s3, 40(a0)",
+        "        sd s4, 48(a0)",
+        "        sd s5, 56(a0)",
+        "        sd s6, 64(a0)",
+        "        sd s7, 72(a0)",
+        "        sd s8, 80(a0)",
+        "        sd s9, 88(a0)",
+        "        sd s10, 96(a0)",
+        "        sd s11, 104(a0)",
+        "    ...",
+        "        ld ra, 0(a1)",
+        "        ld sp, 8(a1)",
+        "        ld s0, 16(a1)",
+        "        ld s1, 24(a1)",
+        "        ld s2, 32(a1)",
+        "        ld s3, 40(a1)",
+        "        ld s4, 48(a1)",
+        "        ld s5, 56(a1)",
+        "        ld s6, 64(a1)",
+        "        ld s7, 72(a1)",
+        "        ld s8, 80(a1)",
+        "        ld s9, 88(a1)",
+        "        ld s10, 96(a1)",
+        "        ld s11, 104(a1)",
+        "",
+        "        ret"
+      ],
+      "id": 80,
+      "text": ".globl swtch\nswtch:\n        sd ra, 0(a0)\n        sd sp, 8(a0)\n        sd s0, 16(a0)\n        sd s1, 24(a0)\n        sd s2, 32(a0)\n        sd s3, 40(a0)\n        sd s4, 48(a0)\n        sd s5, 56(a0)\n        sd s6, 64(a0)\n        sd s7, 72(a0)\n        sd s8, 80(a0)\n        sd s9, 88(a0)\n        sd s10, 96(a0)\n        sd s11, 104(a0)\n    ...\n        ld ra, 0(a1)\n        ld sp, 8(a1)\n        ld s0, 16(a1)\n        ld s1, 24(a1)\n        ld s2, 32(a1)\n        ld s3, 40(a1)\n        ld s4, 48(a1)\n        ld s5, 56(a1)\n        ld s6, 64(a1)\n        ld s7, 72(a1)\n        ld s8, 80(a1)\n        ld s9, 88(a1)\n        ld s10, 96(a1)\n        ld s11, 104(a1)\n\n        ret"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 11,
+      "source_pages": [
+        11
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "sched의 전제와 일반 yield | pa3:kernel/proc.c L543-571"
+      ],
+      "id": 81,
+      "text": "sched의 전제와 일반 yield | pa3:kernel/proc.c L543-571"
+    },
+    {
+      "kind": "code",
+      "source_page": 11,
+      "source_pages": [
+        11
+      ],
+      "start_top": 66.43,
+      "end_top": 345.83,
+      "lines": [
+        "sched(void)",
+        "{",
+        "  int intena;",
+        "  struct proc *p = myproc();",
+        "",
+        "  if (!holding(&p->lock))",
+        "    panic(\"sched p->lock\");",
+        "  if (mycpu()->noff != 1)",
+        "    panic(\"sched locks\");",
+        "  if (p->state == RUNNING)",
+        "    panic(\"sched RUNNING\");",
+        "  if (intr_get())",
+        "    panic(\"sched interruptible\");",
+        "",
+        "  intena = mycpu()->intena;",
+        "  swtch(&p->context, &mycpu()->context);",
+        "  mycpu()->intena = intena;",
+        "}",
+        "",
+        "void",
+        "yield(void)",
+        "{",
+        "  struct proc *p = myproc();",
+        "  acquire(&p->lock);",
+        "  p->state = RUNNABLE;",
+        "  sched();",
+        "  release(&p->lock);",
+        "}"
+      ],
+      "id": 82,
+      "text": "sched(void)\n{\n  int intena;\n  struct proc *p = myproc();\n\n  if (!holding(&p->lock))\n    panic(\"sched p->lock\");\n  if (mycpu()->noff != 1)\n    panic(\"sched locks\");\n  if (p->state == RUNNING)\n    panic(\"sched RUNNING\");\n  if (intr_get())\n    panic(\"sched interruptible\");\n\n  intena = mycpu()->intena;\n  swtch(&p->context, &mycpu()->context);\n  mycpu()->intena = intena;\n}\n\nvoid\nyield(void)\n{\n  struct proc *p = myproc();\n  acquire(&p->lock);\n  p->state = RUNNABLE;\n  sched();\n  release(&p->lock);\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 11,
+      "source_pages": [
+        11
+      ],
+      "start_top": 360.1,
+      "end_top": 405.7,
+      "lines": [
+        "yield는 프로세스를 RUNNABLE로 만들고 sched를 호출한다. sched는 p->lock을",
+        "보유하고 RUNNING이 아닌 상태여야 하며, 인터럽트가 꺼져 있어야 한다.",
+        "swtch(&p-;>context, &cpu-;>context)는 현재 프로세스 커널 문맥을 저장하고",
+        "scheduler 문맥을 복원한다. 사용자 레지스터 저장은 앞의 trapframe 경로다."
+      ],
+      "id": 83,
+      "text": "yield는 프로세스를 RUNNABLE로 만들고 sched를 호출한다. sched는 p->lock을 보유하고 RUNNING이 아닌 상태여야 하며, 인터럽트가 꺼져 있어야 한다. swtch(&p-;>context, &cpu-;>context)는 현재 프로세스 커널 문맥을 저장하고 scheduler 문맥을 복원한다. 사용자 레지스터 저장은 앞의 trapframe 경로다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 12,
+      "source_pages": [
+        12
+      ],
+      "start_top": 52.18,
+      "end_top": 52.18,
+      "lines": [
+        "이 저장소의 sleep_prepare → sleep"
+      ],
+      "id": 84,
+      "text": "이 저장소의 sleep_prepare → sleep"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 12,
+      "source_pages": [
+        12
+      ],
+      "start_top": 72.56,
+      "end_top": 72.56,
+      "lines": [
+        "채널 선등록과 wakeup | pa3:kernel/proc.c L611-659"
+      ],
+      "id": 85,
+      "text": "채널 선등록과 wakeup | pa3:kernel/proc.c L611-659"
+    },
+    {
+      "kind": "code",
+      "source_page": 12,
+      "source_pages": [
+        12
+      ],
+      "start_top": 87.43,
+      "end_top": 499.43,
+      "lines": [
+        "sleep_prepare(void *chan)",
+        "{",
+        "  struct proc *p = myproc();",
+        "",
+        "  acquire(&p->lock);",
+        "  if (chan == 0)",
+        "    panic(\"sleep_prepare: zero chan\");",
+        "  p->chan = chan;",
+        "  release(&p->lock);",
+        "}",
+        "",
+        "void",
+        "sleep(void)",
+        "{",
+        "  struct proc *p = myproc();",
+        "",
+        "  acquire(&p->lock);",
+        "  if (p->chan != 0) {",
+        "    p->state = SLEEPING;",
+        "    sched();",
+        "  }",
+        "  release(&p->lock);",
+        "}",
+        "",
+        "void",
+        "wakeup(void *chan)",
+        "{",
+        "  struct proc *p;",
+        "",
+        "  for (p = proc; p < &proc[NPROC]; p++) {",
+        "    acquire(&p->lock);",
+        "    if (p->chan == chan) {",
+        "      p->chan = 0;",
+        "",
+        "      if (p->state == SLEEPING) {",
+        "        p->state = RUNNABLE;",
+        "      }",
+        "    }",
+        "    release(&p->lock);",
+        "  }",
+        "}"
+      ],
+      "id": 86,
+      "text": "sleep_prepare(void *chan)\n{\n  struct proc *p = myproc();\n\n  acquire(&p->lock);\n  if (chan == 0)\n    panic(\"sleep_prepare: zero chan\");\n  p->chan = chan;\n  release(&p->lock);\n}\n\nvoid\nsleep(void)\n{\n  struct proc *p = myproc();\n\n  acquire(&p->lock);\n  if (p->chan != 0) {\n    p->state = SLEEPING;\n    sched();\n  }\n  release(&p->lock);\n}\n\nvoid\nwakeup(void *chan)\n{\n  struct proc *p;\n\n  for (p = proc; p < &proc[NPROC]; p++) {\n    acquire(&p->lock);\n    if (p->chan == chan) {\n      p->chan = 0;\n\n      if (p->state == SLEEPING) {\n        p->state = RUNNABLE;\n      }\n    }\n    release(&p->lock);\n  }\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 12,
+      "source_pages": [
+        12
+      ],
+      "start_top": 513.7,
+      "end_top": 559.3,
+      "lines": [
+        "이 저장소는 교과서의 sleep(chan, lock) API가 아니다. 조건 lock을 잡은 상태에서",
+        "sleep_prepare(chan)으로 채널을 먼저 등록하고 lock을 푼 다음 sleep()한다. 그 사이",
+        "wakeup이 오면 chan=0으로 바뀌므로 sleep()은 실제로 잠들지 않는다. 이것이 lost",
+        "wakeup을 막는 핵심 순서다."
+      ],
+      "id": 87,
+      "text": "이 저장소는 교과서의 sleep(chan, lock) API가 아니다. 조건 lock을 잡은 상태에서 sleep_prepare(chan)으로 채널을 먼저 등록하고 lock을 푼 다음 sleep()한다. 그 사이 wakeup이 오면 chan=0으로 바뀌므로 sleep()은 실제로 잠들지 않는다. 이것이 lost wakeup을 막는 핵심 순서다."
+    },
+    {
+      "kind": "section",
+      "source_page": 13,
+      "source_pages": [
+        13
+      ],
+      "start_top": 70.12,
+      "end_top": 70.12,
+      "lines": [
+        "04 · Sv39와 메모리 코드"
+      ],
+      "id": 88,
+      "text": "04 · Sv39와 메모리 코드"
+    },
+    {
+      "kind": "small",
+      "source_page": 13,
+      "source_pages": [
+        13
+      ],
+      "start_top": 100.18,
+      "end_top": 100.18,
+      "lines": [
+        "가상주소 손계산과 실제 xv6 walk/page fault 연결"
+      ],
+      "id": 89,
+      "text": "가상주소 손계산과 실제 xv6 walk/page fault 연결"
+    },
+    {
+      "kind": "sub",
+      "source_page": 13,
+      "source_pages": [
+        13
+      ],
+      "start_top": 125.78,
+      "end_top": 125.78,
+      "lines": [
+        "VA를 4개 조각으로 나눈다"
+      ],
+      "id": 90,
+      "text": "VA를 4개 조각으로 나눈다"
+    },
+    {
+      "kind": "body",
+      "source_page": 13,
+      "source_pages": [
+        13
+      ],
+      "start_top": 146.5,
+      "end_top": 176.9,
+      "lines": [
+        "Sv39, PGSIZE=4096(2^12). VA의 bits 38:30=VPN[2], 29:21=VPN[1], 20:12=VPN[0],",
+        "11:0=offset. 각 VPN은 9비트라 페이지 테이블 한 장의 PTE는 512개다. satp는 최상위",
+        "페이지 테이블을 가리킨다."
+      ],
+      "id": 91,
+      "text": "Sv39, PGSIZE=4096(2^12). VA의 bits 38:30=VPN[2], 29:21=VPN[1], 20:12=VPN[0], 11:0=offset. 각 VPN은 9비트라 페이지 테이블 한 장의 PTE는 512개다. satp는 최상위 페이지 테이블을 가리킨다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 13,
+      "source_pages": [
+        13
+      ],
+      "start_top": 198.76,
+      "end_top": 198.76,
+      "lines": [
+        "페이지 크기·PTE 비트·인덱스 매크로 | pa3:kernel/riscv.h L389-417"
+      ],
+      "id": 92,
+      "text": "페이지 크기·PTE 비트·인덱스 매크로 | pa3:kernel/riscv.h L389-417"
+    },
+    {
+      "kind": "code",
+      "source_page": 13,
+      "source_pages": [
+        13
+      ],
+      "start_top": 213.63,
+      "end_top": 431.83,
+      "lines": [
+        "#define PGSIZE 4096",
+        "#define PGSHIFT 12",
+        "",
+        "#define PGROUNDUP(sz) (((sz) + PGSIZE - 1) & ~(PGSIZE - 1))",
+        "#define PGROUNDDOWN(a) (((a)) & ~(PGSIZE - 1))",
+        "",
+        "#define PTE_V (1L << 0)",
+        "#define PTE_R (1L << 1)",
+        "#define PTE_W (1L << 2)",
+        "#define PTE_X (1L << 3)",
+        "#define PTE_U (1L << 4)",
+        "",
+        "#define PA2PTE(pa) ((((uint64)pa) >> 12) << 10)",
+        "",
+        "#define PTE2PA(pte) (((pte) >> 10) << 12)",
+        "",
+        "#define PTE_FLAGS(pte) ((pte) & 0x3FF)",
+        "",
+        "#define PXMASK 0x1FF",
+        "#define PXSHIFT(level) (PGSHIFT + (9 * (level)))",
+        "#define PX(level, va) ((((uint64)(va)) >> PXSHIFT(level)) & PXMASK)",
+        "#define MAXVA (1L << (9 + 9 + 9 + 12 - 1))"
+      ],
+      "id": 93,
+      "text": "#define PGSIZE 4096\n#define PGSHIFT 12\n\n#define PGROUNDUP(sz) (((sz) + PGSIZE - 1) & ~(PGSIZE - 1))\n#define PGROUNDDOWN(a) (((a)) & ~(PGSIZE - 1))\n\n#define PTE_V (1L << 0)\n#define PTE_R (1L << 1)\n#define PTE_W (1L << 2)\n#define PTE_X (1L << 3)\n#define PTE_U (1L << 4)\n\n#define PA2PTE(pa) ((((uint64)pa) >> 12) << 10)\n\n#define PTE2PA(pte) (((pte) >> 10) << 12)\n\n#define PTE_FLAGS(pte) ((pte) & 0x3FF)\n\n#define PXMASK 0x1FF\n#define PXSHIFT(level) (PGSHIFT + (9 * (level)))\n#define PX(level, va) ((((uint64)(va)) >> PXSHIFT(level)) & PXMASK)\n#define MAXVA (1L << (9 + 9 + 9 + 12 - 1))"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 14,
+      "source_pages": [
+        14
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "walk: level 2 → 1 → 0 | pa3:kernel/vm.c L98-116"
+      ],
+      "id": 94,
+      "text": "walk: level 2 → 1 → 0 | pa3:kernel/vm.c L98-116"
+    },
+    {
+      "kind": "code",
+      "source_page": 14,
+      "source_pages": [
+        14
+      ],
+      "start_top": 66.43,
+      "end_top": 250.03,
+      "lines": [
+        "pte_t *",
+        "walk(pagetable_t pagetable, uint64 va, int alloc)",
+        "{",
+        "  if (va >= MAXVA)",
+        "    panic(\"walk\");",
+        "",
+        "  for (int level = 2; level > 0; level--) {",
+        "    pte_t *pte = &pagetable[PX(level, va)];",
+        "    if (*pte & PTE_V) {",
+        "      pagetable = (pagetable_t)PTE2PA(*pte);",
+        "    } else {",
+        "      if (!alloc || (pagetable = (pde_t *)kalloc()) == 0)",
+        "        return 0;",
+        "      memset(pagetable, 0, PGSIZE);",
+        "      *pte = PA2PTE(pagetable) | PTE_V;",
+        "    }",
+        "  }",
+        "  return &pagetable[PX(0, va)];",
+        "}"
+      ],
+      "id": 95,
+      "text": "pte_t *\nwalk(pagetable_t pagetable, uint64 va, int alloc)\n{\n  if (va >= MAXVA)\n    panic(\"walk\");\n\n  for (int level = 2; level > 0; level--) {\n    pte_t *pte = &pagetable[PX(level, va)];\n    if (*pte & PTE_V) {\n      pagetable = (pagetable_t)PTE2PA(*pte);\n    } else {\n      if (!alloc || (pagetable = (pde_t *)kalloc()) == 0)\n        return 0;\n      memset(pagetable, 0, PGSIZE);\n      *pte = PA2PTE(pagetable) | PTE_V;\n    }\n  }\n  return &pagetable[PX(0, va)];\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 14,
+      "source_pages": [
+        14
+      ],
+      "start_top": 264.3,
+      "end_top": 294.7,
+      "lines": [
+        "walk는 중간 PTE가 V=1이면 다음 페이지 테이블의 물리주소로 내려간다. 없고",
+        "alloc=1이면 새 페이지 테이블 페이지를 만들고 PTE_V를 세운다. 마지막에는 level 0",
+        "PTE 주소를 돌려준다. 리프가 실제 물리 페이지를 가리키는지와 권한은 이후 검사다."
+      ],
+      "id": 96,
+      "text": "walk는 중간 PTE가 V=1이면 다음 페이지 테이블의 물리주소로 내려간다. 없고 alloc=1이면 새 페이지 테이블 페이지를 만들고 PTE_V를 세운다. 마지막에는 level 0 PTE 주소를 돌려준다. 리프가 실제 물리 페이지를 가리키는지와 권한은 이후 검사다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 14,
+      "source_pages": [
+        14
+      ],
+      "start_top": 316.56,
+      "end_top": 316.56,
+      "lines": [
+        "mappages: leaf PTE 생성 | pa3:kernel/vm.c L147-175"
+      ],
+      "id": 97,
+      "text": "mappages: leaf PTE 생성 | pa3:kernel/vm.c L147-175"
+    },
+    {
+      "kind": "code",
+      "source_page": 14,
+      "source_pages": [
+        14,
+        15
+      ],
+      "start_top": 331.43,
+      "end_top": 82.43,
+      "lines": [
+        "mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa,",
+        "  >> int perm)",
+        "{",
+        "  uint64 a, last;",
+        "  pte_t *pte;",
+        "",
+        "  if ((va % PGSIZE) != 0)",
+        "    panic(\"mappages: va not aligned\");",
+        "",
+        "  if ((size % PGSIZE) != 0)",
+        "    panic(\"mappages: size not aligned\");",
+        "",
+        "  if (size == 0)",
+        "    panic(\"mappages: size\");",
+        "",
+        "  a = va;",
+        "  last = va + size - PGSIZE;",
+        "  for (;;) {",
+        "    if ((pte = walk(pagetable, a, 1)) == 0)",
+        "      return -1;",
+        "    if (*pte & PTE_V)",
+        "      panic(\"mappages: remap\");",
+        "    *pte = PA2PTE(pa) | perm | PTE_V;",
+        "    if (a == last)",
+        "      break;",
+        "    a += PGSIZE;",
+        "    pa += PGSIZE;",
+        "  }",
+        "  return 0;",
+        "}"
+      ],
+      "id": 98,
+      "text": "mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa,\n  >> int perm)\n{\n  uint64 a, last;\n  pte_t *pte;\n\n  if ((va % PGSIZE) != 0)\n    panic(\"mappages: va not aligned\");\n\n  if ((size % PGSIZE) != 0)\n    panic(\"mappages: size not aligned\");\n\n  if (size == 0)\n    panic(\"mappages: size\");\n\n  a = va;\n  last = va + size - PGSIZE;\n  for (;;) {\n    if ((pte = walk(pagetable, a, 1)) == 0)\n      return -1;\n    if (*pte & PTE_V)\n      panic(\"mappages: remap\");\n    *pte = PA2PTE(pa) | perm | PTE_V;\n    if (a == last)\n      break;\n    a += PGSIZE;\n    pa += PGSIZE;\n  }\n  return 0;\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 15,
+      "source_pages": [
+        15
+      ],
+      "start_top": 96.7,
+      "end_top": 127.1,
+      "lines": [
+        "mappages는 시작 VA·크기가 페이지 정렬인지 검사하고, 각 페이지마다",
+        "PA2PTE(pa)|perm|PTE_V로 매핑한다. 이미 V인 PTE라면 remap panic이다. 일반 user",
+        "페이지에는 PTE_U가 필요하지만 TRAPFRAME/TRAMPOLINE 매핑에는 PTE_U가 없다."
+      ],
+      "id": 99,
+      "text": "mappages는 시작 VA·크기가 페이지 정렬인지 검사하고, 각 페이지마다 PA2PTE(pa)|perm|PTE_V로 매핑한다. 이미 V인 PTE라면 remap panic이다. 일반 user 페이지에는 PTE_U가 필요하지만 TRAPFRAME/TRAMPOLINE 매핑에는 PTE_U가 없다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 15,
+      "source_pages": [
+        15
+      ],
+      "start_top": 154.58,
+      "end_top": 154.58,
+      "lines": [
+        "기출형 계산 예"
+      ],
+      "id": 100,
+      "text": "기출형 계산 예"
+    },
+    {
+      "kind": "body",
+      "source_page": 15,
+      "source_pages": [
+        15
+      ],
+      "start_top": 175.3,
+      "end_top": 205.7,
+      "lines": [
+        "VA 0x0000000040001234 → offset=0x234, VPN[0]=1, VPN[1]=0, VPN[2]=1. leaf",
+        "PTE가 PPN=0x80023을 주면 PA=(0x80023 << 12)|0x234 = 0x80023234. 실제",
+        "하드웨어 접근은 V/U/R/W/X 권한 검사를 통과해야 한다."
+      ],
+      "id": 101,
+      "text": "VA 0x0000000040001234 → offset=0x234, VPN[0]=1, VPN[1]=0, VPN[2]=1. leaf PTE가 PPN=0x80023을 주면 PA=(0x80023 << 12)|0x234 = 0x80023234. 실제 하드웨어 접근은 V/U/R/W/X 권한 검사를 통과해야 한다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 15,
+      "source_pages": [
+        15
+      ],
+      "start_top": 233.18,
+      "end_top": 233.18,
+      "lines": [
+        "copyin/out은 페이지 경계를 쪼갠다"
+      ],
+      "id": 102,
+      "text": "copyin/out은 페이지 경계를 쪼갠다"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 15,
+      "source_pages": [
+        15
+      ],
+      "start_top": 253.56,
+      "end_top": 253.56,
+      "lines": [
+        "copyout/copyin의 walkaddr와 페이지별 복사 | pa3:kernel/vm.c L345-376, 383-405"
+      ],
+      "id": 103,
+      "text": "copyout/copyin의 walkaddr와 페이지별 복사 | pa3:kernel/vm.c L345-376, 383-405"
+    },
+    {
+      "kind": "code",
+      "source_page": 15,
+      "source_pages": [
+        15,
+        16
+      ],
+      "start_top": 268.43,
+      "end_top": 290.43,
+      "lines": [
+        "copyout(pagetable_t pagetable, uint64 psz, uint64 dstva, char *src,",
+        "  >> uint64 len)",
+        "{",
+        "  uint64 n, va0, pa0;",
+        "  pte_t *pte;",
+        "",
+        "  while (len > 0) {",
+        "    va0 = PGROUNDDOWN(dstva);",
+        "    if (va0 >= MAXVA)",
+        "      return -1;",
+        "",
+        "    pa0 = walkaddr(pagetable, va0);",
+        "    if (pa0 == 0) {",
+        "      if ((pa0 = vmfault(pagetable, psz, va0, 0)) == 0) {",
+        "        return -1;",
+        "      }",
+        "    }",
+        "",
+        "    pte = walk(pagetable, va0, 0);",
+        "    if ((*pte & PTE_W) == 0)",
+        "      return -1;",
+        "    n = PGSIZE - (dstva - va0);",
+        "    if (n > len)",
+        "      n = len;",
+        "    memmove((void *)(pa0 + (dstva - va0)), src, n);",
+        "",
+        "    len -= n;",
+        "    src += n;",
+        "    dstva = va0 + PGSIZE;",
+        "  }",
+        "  return 0;",
+        "    ...",
+        "copyin(pagetable_t pagetable, uint64 psz, char *dst, uint64 srcva,",
+        "  >> uint64 len)",
+        "{",
+        "  uint64 n, va0, pa0;",
+        "",
+        "  while (len > 0) {",
+        "    va0 = PGROUNDDOWN(srcva);",
+        "    pa0 = walkaddr(pagetable, va0);",
+        "    if (pa0 == 0) {",
+        "      if ((pa0 = vmfault(pagetable, psz, va0, 1)) == 0) {",
+        "        return -1;",
+        "      }",
+        "    }",
+        "    n = PGSIZE - (srcva - va0);",
+        "    if (n > len)",
+        "      n = len;",
+        "    memmove(dst, (void *)(pa0 + (srcva - va0)), n);",
+        "",
+        "    len -= n;",
+        "    dst += n;",
+        "    srcva = va0 + PGSIZE;",
+        "  }",
+        "  return 0;",
+        "}"
+      ],
+      "id": 104,
+      "text": "copyout(pagetable_t pagetable, uint64 psz, uint64 dstva, char *src,\n  >> uint64 len)\n{\n  uint64 n, va0, pa0;\n  pte_t *pte;\n\n  while (len > 0) {\n    va0 = PGROUNDDOWN(dstva);\n    if (va0 >= MAXVA)\n      return -1;\n\n    pa0 = walkaddr(pagetable, va0);\n    if (pa0 == 0) {\n      if ((pa0 = vmfault(pagetable, psz, va0, 0)) == 0) {\n        return -1;\n      }\n    }\n\n    pte = walk(pagetable, va0, 0);\n    if ((*pte & PTE_W) == 0)\n      return -1;\n    n = PGSIZE - (dstva - va0);\n    if (n > len)\n      n = len;\n    memmove((void *)(pa0 + (dstva - va0)), src, n);\n\n    len -= n;\n    src += n;\n    dstva = va0 + PGSIZE;\n  }\n  return 0;\n    ...\ncopyin(pagetable_t pagetable, uint64 psz, char *dst, uint64 srcva,\n  >> uint64 len)\n{\n  uint64 n, va0, pa0;\n\n  while (len > 0) {\n    va0 = PGROUNDDOWN(srcva);\n    pa0 = walkaddr(pagetable, va0);\n    if (pa0 == 0) {\n      if ((pa0 = vmfault(pagetable, psz, va0, 1)) == 0) {\n        return -1;\n      }\n    }\n    n = PGSIZE - (srcva - va0);\n    if (n > len)\n      n = len;\n    memmove(dst, (void *)(pa0 + (srcva - va0)), n);\n\n    len -= n;\n    dst += n;\n    srcva = va0 + PGSIZE;\n  }\n  return 0;\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 16,
+      "source_pages": [
+        16
+      ],
+      "start_top": 304.7,
+      "end_top": 335.1,
+      "lines": [
+        "커널이 user pointer를 임의로 직접 역참조하지 않고, user pagetable에서 각 VA",
+        "페이지를 물리주소로 번역해 복사한다. copyout은 PTE_W도 검사한다. src/dst가",
+        "페이지 경계를 넘으면 다음 페이지에서 다시 walkaddr를 한다."
+      ],
+      "id": 105,
+      "text": "커널이 user pointer를 임의로 직접 역참조하지 않고, user pagetable에서 각 VA 페이지를 물리주소로 번역해 복사한다. copyout은 PTE_W도 검사한다. src/dst가 페이지 경계를 넘으면 다음 페이지에서 다시 walkaddr를 한다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 16,
+      "source_pages": [
+        16
+      ],
+      "start_top": 362.58,
+      "end_top": 362.58,
+      "lines": [
+        "기본 sbrk는 eager, sbrklazy만 lazy"
+      ],
+      "id": 106,
+      "text": "기본 sbrk는 eager, sbrklazy만 lazy"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 16,
+      "source_pages": [
+        16
+      ],
+      "start_top": 382.96,
+      "end_top": 382.96,
+      "lines": [
+        "두 사용자 API가 다른 모드를 전달 | pa3:user/ulib.c L167-176"
+      ],
+      "id": 107,
+      "text": "두 사용자 API가 다른 모드를 전달 | pa3:user/ulib.c L167-176"
+    },
+    {
+      "kind": "code",
+      "source_page": 16,
+      "source_pages": [
+        16
+      ],
+      "start_top": 397.83,
+      "end_top": 489.63,
+      "lines": [
+        "char *",
+        "sbrk(int n)",
+        "{",
+        "  return sys_sbrk(n, SBRK_EAGER);",
+        "}",
+        "",
+        "char *",
+        "sbrklazy(int n)",
+        "{",
+        "  return sys_sbrk(n, SBRK_LAZY);"
+      ],
+      "id": 108,
+      "text": "char *\nsbrk(int n)\n{\n  return sys_sbrk(n, SBRK_EAGER);\n}\n\nchar *\nsbrklazy(int n)\n{\n  return sys_sbrk(n, SBRK_LAZY);"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 17,
+      "source_pages": [
+        17
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "sys_sbrk: LAZY에서는 sz만 증가 | pa3:kernel/sysproc.c L39-64"
+      ],
+      "id": 109,
+      "text": "sys_sbrk: LAZY에서는 sz만 증가 | pa3:kernel/sysproc.c L39-64"
+    },
+    {
+      "kind": "code",
+      "source_page": 17,
+      "source_pages": [
+        17
+      ],
+      "start_top": 66.43,
+      "end_top": 294.83,
+      "lines": [
+        "uint64",
+        "sys_sbrk(void)",
+        "{",
+        "  uint64 addr;",
+        "  int t;",
+        "  int n;",
+        "",
+        "  argint(0, &n);",
+        "  argint(1, &t);",
+        "  addr = myproc()->sz;",
+        "",
+        "  if (t == SBRK_EAGER || n < 0) {",
+        "    if (growproc(n) < 0) {",
+        "      return -1;",
+        "    }",
+        "  } else {",
+        "    if (addr + n < addr)",
+        "      return -1;",
+        "    if (addr + n > TRAPFRAME)",
+        "      return -1;",
+        "    myproc()->sz += n;",
+        "  }",
+        "  return addr;"
+      ],
+      "id": 110,
+      "text": "uint64\nsys_sbrk(void)\n{\n  uint64 addr;\n  int t;\n  int n;\n\n  argint(0, &n);\n  argint(1, &t);\n  addr = myproc()->sz;\n\n  if (t == SBRK_EAGER || n < 0) {\n    if (growproc(n) < 0) {\n      return -1;\n    }\n  } else {\n    if (addr + n < addr)\n      return -1;\n    if (addr + n > TRAPFRAME)\n      return -1;\n    myproc()->sz += n;\n  }\n  return addr;"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 17,
+      "source_pages": [
+        17
+      ],
+      "start_top": 309.76,
+      "end_top": 309.76,
+      "lines": [
+        "vmfault: 유효한 lazy 범위 첫 접근에 할당 | pa3:kernel/vm.c L454-478"
+      ],
+      "id": 111,
+      "text": "vmfault: 유효한 lazy 범위 첫 접근에 할당 | pa3:kernel/vm.c L454-478"
+    },
+    {
+      "kind": "code",
+      "source_page": 17,
+      "source_pages": [
+        17
+      ],
+      "start_top": 324.63,
+      "end_top": 538.83,
+      "lines": [
+        "uint64",
+        "vmfault(pagetable_t pagetable, uint64 psz, uint64 va, int read)",
+        "{",
+        "  uint64 mem;",
+        "",
+        "  if (va >= psz)",
+        "    return 0;",
+        "  va = PGROUNDDOWN(va);",
+        "  if (ismapped(pagetable, va)) {",
+        "    return 0;",
+        "  }",
+        "  mem = (uint64)kalloc();",
+        "  if (mem == 0)",
+        "    return 0;",
+        "  memset((void *)mem, 0, PGSIZE);",
+        "  if (mappages(pagetable, va, PGSIZE, mem, PTE_W | PTE_U | PTE_R) !=",
+        "  >> 0) {",
+        "    kfree((void *)mem);",
+        "    return 0;",
+        "  }",
+        "  return mem;",
+        "}"
+      ],
+      "id": 112,
+      "text": "uint64\nvmfault(pagetable_t pagetable, uint64 psz, uint64 va, int read)\n{\n  uint64 mem;\n\n  if (va >= psz)\n    return 0;\n  va = PGROUNDDOWN(va);\n  if (ismapped(pagetable, va)) {\n    return 0;\n  }\n  mem = (uint64)kalloc();\n  if (mem == 0)\n    return 0;\n  memset((void *)mem, 0, PGSIZE);\n  if (mappages(pagetable, va, PGSIZE, mem, PTE_W | PTE_U | PTE_R) !=\n  >> 0) {\n    kfree((void *)mem);\n    return 0;\n  }\n  return mem;\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 17,
+      "source_pages": [
+        17
+      ],
+      "start_top": 553.1,
+      "end_top": 583.5,
+      "lines": [
+        "lazy 요청은 주소 공간 크기 sz만 먼저 키운다. 첫 load/store가 미매핑 페이지에",
+        "닿으면 usertrap의 scause 13/15 경로가 vmfault를 호출해 0으로 채운 페이지를",
+        "매핑한다. 이 구현의 vmfault(read 인자)는 본문에서 권한을 나누는 데 쓰이지 않는다."
+      ],
+      "id": 113,
+      "text": "lazy 요청은 주소 공간 크기 sz만 먼저 키운다. 첫 load/store가 미매핑 페이지에 닿으면 usertrap의 scause 13/15 경로가 vmfault를 호출해 0으로 채운 페이지를 매핑한다. 이 구현의 vmfault(read 인자)는 본문에서 권한을 나누는 데 쓰이지 않는다."
+    },
+    {
+      "kind": "body",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 51.9,
+      "end_top": 51.9,
+      "lines": [
+        "fork의 uvmcopy는 이미 존재하는 페이지만 복사하고 lazy hole은 건너뛴다."
+      ],
+      "id": 114,
+      "text": "fork의 uvmcopy는 이미 존재하는 페이지만 복사하고 lazy hole은 건너뛴다."
+    },
+    {
+      "kind": "section",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 92.32,
+      "end_top": 92.32,
+      "lines": [
+        "05 · PA1: 부팅 출력"
+      ],
+      "id": 115,
+      "text": "05 · PA1: 부팅 출력"
+    },
+    {
+      "kind": "small",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 122.38,
+      "end_top": 122.38,
+      "lines": [
+        "이번 학기 제출 브랜치 pa1"
+      ],
+      "id": 116,
+      "text": "이번 학기 제출 브랜치 pa1"
+    },
+    {
+      "kind": "body",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 141.7,
+      "end_top": 172.1,
+      "lines": [
+        "요구: 부팅 화면에 SNUOS2026과 학번·이름을 표시한다. 코드의 핵심은 위치다. 아직",
+        "user process가 없는 hart 0의 kernel/main.c에서 consoleinit/printkinit 뒤,",
+        "kinit·userinit 앞에 printk를 둔다."
+      ],
+      "id": 117,
+      "text": "요구: 부팅 화면에 SNUOS2026과 학번·이름을 표시한다. 코드의 핵심은 위치다. 아직 user process가 없는 hart 0의 kernel/main.c에서 consoleinit/printkinit 뒤, kinit·userinit 앞에 printk를 둔다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 193.96,
+      "end_top": 193.96,
+      "lines": [
+        "hart 0의 출력 시점과 다음 초기화 | pa1:kernel/main.c L13-21, 36-43"
+      ],
+      "id": 118,
+      "text": "hart 0의 출력 시점과 다음 초기화 | pa1:kernel/main.c L13-21, 36-43"
+    },
+    {
+      "kind": "code",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 208.83,
+      "end_top": 382.23,
+      "lines": [
+        "  if (cpuid() == 0) {",
+        "    consoleinit();",
+        "    printkinit();",
+        "    printk(\"\\n\");",
+        "    printk(\"xv6 kernel is booting\\n\");",
+        "    printk(\"\\n\");",
+        "",
+        "    printk(\"SNUOS2026\\n\");",
+        "    printk(\"\\n\");",
+        "    ...",
+        "",
+        "    kinit();",
+        "    kvminit();",
+        "    kvminithart();",
+        "    procinit();",
+        "    trapinit();",
+        "    trapinithart();",
+        "    plicinit();"
+      ],
+      "id": 119,
+      "text": "  if (cpuid() == 0) {\n    consoleinit();\n    printkinit();\n    printk(\"\\n\");\n    printk(\"xv6 kernel is booting\\n\");\n    printk(\"\\n\");\n\n    printk(\"SNUOS2026\\n\");\n    printk(\"\\n\");\n    ...\n\n    kinit();\n    kvminit();\n    kvminithart();\n    procinit();\n    trapinit();\n    trapinithart();\n    plicinit();"
+    },
+    {
+      "kind": "item",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 396.44,
+      "end_top": 411.24,
+      "lines": [
+        "• 왜 hart 0? 전역 초기화와 부팅 메시지를 한 번만 실행하기 위해 cpuid()==0 분기를",
+        "쓴다. 다른 hart는 started를 기다린다."
+      ],
+      "id": 120,
+      "text": "• 왜 hart 0? 전역 초기화와 부팅 메시지를 한 번만 실행하기 위해 cpuid()==0 분기를 쓴다. 다른 hart는 started를 기다린다."
+    },
+    {
+      "kind": "item",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 432.04,
+      "end_top": 432.04,
+      "lines": [
+        "• 왜 user printf가 아닌가? user address space나 sys_write 경로가 준비되기 전이다."
+      ],
+      "id": 121,
+      "text": "• 왜 user printf가 아닌가? user address space나 sys_write 경로가 준비되기 전이다."
+    },
+    {
+      "kind": "item",
+      "source_page": 18,
+      "source_pages": [
+        18
+      ],
+      "start_top": 452.84,
+      "end_top": 452.84,
+      "lines": [
+        "• Makefile의 STUDENTID는 제출물 식별값이며 출력 로직과 역할이 다르다."
+      ],
+      "id": 122,
+      "text": "• Makefile의 STUDENTID는 제출물 식별값이며 출력 로직과 역할이 다르다."
+    },
+    {
+      "kind": "section",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 70.12,
+      "end_top": 70.12,
+      "lines": [
+        "06 · PA2: U→S→M의 두 번의 ecall"
+      ],
+      "id": 123,
+      "text": "06 · PA2: U→S→M의 두 번의 ecall"
+    },
+    {
+      "kind": "small",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 100.18,
+      "end_top": 100.18,
+      "lines": [
+        "이번 학기 제출 브랜치 pa2 · nenter 23 / getpmpaddr 24 / getpmpcfg 25"
+      ],
+      "id": 124,
+      "text": "이번 학기 제출 브랜치 pa2 · nenter 23 / getpmpaddr 24 / getpmpcfg 25"
+    },
+    {
+      "kind": "sub",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 125.78,
+      "end_top": 125.78,
+      "lines": [
+        "nenter: 무엇을 세는가"
+      ],
+      "id": 125,
+      "text": "nenter: 무엇을 세는가"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 146.16,
+      "end_top": 146.16,
+      "lines": [
+        "수용된 개행만 누적 | pa2:kernel/console.c L147-151, 170-185, 188-194"
+      ],
+      "id": 126,
+      "text": "수용된 개행만 누적 | pa2:kernel/console.c L147-151, 170-185, 188-194"
+    },
+    {
+      "kind": "code",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 161.03,
+      "end_top": 440.43,
+      "lines": [
+        "uint nenter_count;",
+        "",
+        "void",
+        "consoleintr(int c)",
+        "{",
+        "    ...",
+        "    }",
+        "    break;",
+        "  default:",
+        "    if (c != 0 && cons.e - cons.r < INPUT_BUF_SIZE) {",
+        "      c = (c == '\\r') ? '\\n' : c;",
+        "",
+        "      if (c == '\\n') nenter_count++;",
+        "",
+        "      consputc(c);",
+        "",
+        "      cons.buf[cons.e++ % INPUT_BUF_SIZE] = c;",
+        "",
+        "      if (c == '\\n' || c == C('D') || cons.e - cons.r ==",
+        "  >> INPUT_BUF_SIZE) {",
+        "    ...",
+        "        wakeup(&cons.r);",
+        "      }",
+        "    }",
+        "    break;",
+        "  }",
+        "",
+        "  release(&cons.lock);"
+      ],
+      "id": 127,
+      "text": "uint nenter_count;\n\nvoid\nconsoleintr(int c)\n{\n    ...\n    }\n    break;\n  default:\n    if (c != 0 && cons.e - cons.r < INPUT_BUF_SIZE) {\n      c = (c == '\\r') ? '\\n' : c;\n\n      if (c == '\\n') nenter_count++;\n\n      consputc(c);\n\n      cons.buf[cons.e++ % INPUT_BUF_SIZE] = c;\n\n      if (c == '\\n' || c == C('D') || cons.e - cons.r ==\n  >> INPUT_BUF_SIZE) {\n    ...\n        wakeup(&cons.r);\n      }\n    }\n    break;\n  }\n\n  release(&cons.lock);"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 455.36,
+      "end_top": 455.36,
+      "lines": [
+        "누적값 반환 | pa2:kernel/sysproc.c L115-120"
+      ],
+      "id": 128,
+      "text": "누적값 반환 | pa2:kernel/sysproc.c L115-120"
+    },
+    {
+      "kind": "code",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 470.23,
+      "end_top": 521.23,
+      "lines": [
+        "extern uint nenter_count;",
+        "",
+        "uint64 sys_nenter(void) {",
+        "",
+        "  return nenter_count;",
+        "}"
+      ],
+      "id": 129,
+      "text": "extern uint nenter_count;\n\nuint64 sys_nenter(void) {\n\n  return nenter_count;\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 19,
+      "source_pages": [
+        19
+      ],
+      "start_top": 535.5,
+      "end_top": 581.1,
+      "lines": [
+        "consoleintr의 default 분기에서 입력 버퍼에 공간이 있고 c가 0이 아닐 때, CR을 LF로",
+        "바꾼 뒤 LF면 카운트한다. Ctrl-U/Backspace로 지운 문자나 버퍼가 가득 차 수용되지",
+        "않은 Enter는 포함되지 않는다. 증가 쪽은 cons.lock 내부, 읽는 sys_nenter에는 별도",
+        "lock이 없다."
+      ],
+      "id": 130,
+      "text": "consoleintr의 default 분기에서 입력 버퍼에 공간이 있고 c가 0이 아닐 때, CR을 LF로 바꾼 뒤 LF면 카운트한다. Ctrl-U/Backspace로 지운 문자나 버퍼가 가득 차 수용되지 않은 Enter는 포함되지 않는다. 증가 쪽은 cons.lock 내부, 읽는 sys_nenter에는 별도 lock이 없다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 20,
+      "source_pages": [
+        20
+      ],
+      "start_top": 52.18,
+      "end_top": 52.18,
+      "lines": [
+        "PMP 조회의 두 번째 trap"
+      ],
+      "id": 131,
+      "text": "PMP 조회의 두 번째 trap"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 20,
+      "source_pages": [
+        20
+      ],
+      "start_top": 72.56,
+      "end_top": 72.56,
+      "lines": [
+        "mtvec 등록과 medeleg bit 9 해제 | pa2:kernel/start.c L29-37"
+      ],
+      "id": 132,
+      "text": "mtvec 등록과 medeleg bit 9 해제 | pa2:kernel/start.c L29-37"
+    },
+    {
+      "kind": "code",
+      "source_page": 20,
+      "source_pages": [
+        20
+      ],
+      "start_top": 87.43,
+      "end_top": 138.43,
+      "lines": [
+        "  w_satp(0);",
+        "",
+        "  w_mtvec((uint64) machinevec);",
+        "",
+        "  w_medeleg(0xfdff);",
+        "  w_mideleg(0xffff);"
+      ],
+      "id": 133,
+      "text": "  w_satp(0);\n\n  w_mtvec((uint64) machinevec);\n\n  w_medeleg(0xfdff);\n  w_mideleg(0xffff);"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 20,
+      "source_pages": [
+        20
+      ],
+      "start_top": 153.36,
+      "end_top": 153.36,
+      "lines": [
+        "인덱스 0..3 검사 후 M-mode 래퍼 | pa2:kernel/sysproc.c L122-144"
+      ],
+      "id": 134,
+      "text": "인덱스 0..3 검사 후 M-mode 래퍼 | pa2:kernel/sysproc.c L122-144"
+    },
+    {
+      "kind": "code",
+      "source_page": 20,
+      "source_pages": [
+        20
+      ],
+      "start_top": 168.23,
+      "end_top": 396.63,
+      "lines": [
+        "extern uint64 mcall_getpmpaddr(int n);",
+        "extern uint64 mcall_getpmpcfg(int n);",
+        "",
+        "uint64 sys_getpmpaddr(void) {",
+        "",
+        "  int n;",
+        "  argint(0, &n);",
+        "",
+        "  if (n < 0 || n > 3) return -1;",
+        "",
+        "  return mcall_getpmpaddr(n);",
+        "}",
+        "",
+        "uint64 sys_getpmpcfg(void) {",
+        "",
+        "  int n;",
+        "",
+        "  argint(0, &n);",
+        "",
+        "  if (n < 0 || n > 3) return -1;",
+        "",
+        "  return (int) mcall_getpmpcfg(n);",
+        "}"
+      ],
+      "id": 135,
+      "text": "extern uint64 mcall_getpmpaddr(int n);\nextern uint64 mcall_getpmpcfg(int n);\n\nuint64 sys_getpmpaddr(void) {\n\n  int n;\n  argint(0, &n);\n\n  if (n < 0 || n > 3) return -1;\n\n  return mcall_getpmpaddr(n);\n}\n\nuint64 sys_getpmpcfg(void) {\n\n  int n;\n\n  argint(0, &n);\n\n  if (n < 0 || n > 3) return -1;\n\n  return (int) mcall_getpmpcfg(n);\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 20,
+      "source_pages": [
+        20
+      ],
+      "start_top": 410.9,
+      "end_top": 441.3,
+      "lines": [
+        "0xfdff = 0xffff & ~0x200. medeleg bit 9(S-mode ecall)를 끄므로 S-mode의 ecall이",
+        "machinevec로 간다. 사용자 ecall(cause 8)은 기존 S-mode syscall로 간다. n<0 또는",
+        "n>3이면 sysproc이 -1을 반환하므로 M-mode 호출까지 가지 않는다."
+      ],
+      "id": 136,
+      "text": "0xfdff = 0xffff & ~0x200. medeleg bit 9(S-mode ecall)를 끄므로 S-mode의 ecall이 machinevec로 간다. 사용자 ecall(cause 8)은 기존 S-mode syscall로 간다. n<0 또는 n>3이면 sysproc이 -1을 반환하므로 M-mode 호출까지 가지 않는다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 21,
+      "source_pages": [
+        21
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "mepc+4, a7 분기, 주소 변환, 래퍼 | pa2:kernel/kernelvec.S L66-80, 110-114, 157-168"
+      ],
+      "id": 137,
+      "text": "mepc+4, a7 분기, 주소 변환, 래퍼 | pa2:kernel/kernelvec.S L66-80, 110-114, 157-168"
+    },
+    {
+      "kind": "code",
+      "source_page": 21,
+      "source_pages": [
+        21
+      ],
+      "start_top": 66.43,
+      "end_top": 386.63,
+      "lines": [
+        ".globl machinevec",
+        "machinevec:",
+        "",
+        "        csrr t0, mepc",
+        "        addi t0, t0, 4",
+        "        csrw mepc, t0",
+        "",
+        "        li t0, 24",
+        "        beq a7, t0, handle_getpmpaddr",
+        "        li t0, 25",
+        "        beq a7, t0, handle_getpmpcfg",
+        "        li a0, -1",
+        "        mret",
+        "",
+        "    ...",
+        "process_pmpaddr:",
+        "        slli a0, a0, 2",
+        "        li t0, 0x00FFFFFFFFFFFFFF",
+        "        and a0, a0, t0",
+        "        mret",
+        "    ...",
+        "mcall_getpmpaddr:",
+        "        li a7, 24",
+        "        ecall",
+        "        ret",
+        "",
+        ".globl mcall_getpmpcfg",
+        "mcall_getpmpcfg:",
+        "",
+        "        li a7, 25",
+        "        ecall",
+        "        ret"
+      ],
+      "id": 138,
+      "text": ".globl machinevec\nmachinevec:\n\n        csrr t0, mepc\n        addi t0, t0, 4\n        csrw mepc, t0\n\n        li t0, 24\n        beq a7, t0, handle_getpmpaddr\n        li t0, 25\n        beq a7, t0, handle_getpmpcfg\n        li a0, -1\n        mret\n\n    ...\nprocess_pmpaddr:\n        slli a0, a0, 2\n        li t0, 0x00FFFFFFFFFFFFFF\n        and a0, a0, t0\n        mret\n    ...\nmcall_getpmpaddr:\n        li a7, 24\n        ecall\n        ret\n\n.globl mcall_getpmpcfg\nmcall_getpmpcfg:\n\n        li a7, 25\n        ecall\n        ret"
+    },
+    {
+      "kind": "body",
+      "source_page": 21,
+      "source_pages": [
+        21
+      ],
+      "start_top": 400.9,
+      "end_top": 431.3,
+      "lines": [
+        "래퍼가 a7=24/25, a0=n을 놓고 ecall한다. machinevec는 mepc를 4 올려 같은 ecall",
+        "반복을 막는다. getpmpaddr는 pmpaddr[n] CSR 원값을 왼쪽 2비트 이동하고",
+        "0x00FFFFFFFFFFFFFF로 마스크한다."
+      ],
+      "id": 139,
+      "text": "래퍼가 a7=24/25, a0=n을 놓고 ecall한다. machinevec는 mepc를 4 올려 같은 ecall 반복을 막는다. getpmpaddr는 pmpaddr[n] CSR 원값을 왼쪽 2비트 이동하고 0x00FFFFFFFFFFFFFF로 마스크한다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 22,
+      "source_pages": [
+        22
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "pmpcfg0의 n번째 바이트 추출 | pa2:kernel/kernelvec.S L116-127, 128-152"
+      ],
+      "id": 140,
+      "text": "pmpcfg0의 n번째 바이트 추출 | pa2:kernel/kernelvec.S L116-127, 128-152"
+    },
+    {
+      "kind": "code",
+      "source_page": 22,
+      "source_pages": [
+        22
+      ],
+      "start_top": 66.43,
+      "end_top": 447.83,
+      "lines": [
+        "handle_getpmpcfg:",
+        "        li t0, 0",
+        "        beq a0, t0, read_pmpcfg0",
+        "        li t0, 1",
+        "        beq a0, t0, read_pmpcfg1",
+        "        li t0, 2",
+        "        beq a0, t0, read_pmpcfg2",
+        "        li t0, 3",
+        "        beq a0, t0, read_pmpcfg3",
+        "        li a0, -1",
+        "        mret",
+        "",
+        "    ...",
+        "read_pmpcfg0:",
+        "        csrr a0, pmpcfg0",
+        "        li t0, 0x00000000000000FF",
+        "        and a0, a0, t0",
+        "        mret",
+        "",
+        "read_pmpcfg1:",
+        "        csrr a0, pmpcfg0",
+        "        li t0, 0x000000000000FF00",
+        "        and a0, a0, t0",
+        "        srli a0, a0, 8",
+        "        mret",
+        "",
+        "read_pmpcfg2:",
+        "        csrr a0, pmpcfg0",
+        "        li t0, 0x0000000000FF0000",
+        "        and a0, a0, t0",
+        "        srli a0, a0, 16",
+        "        mret",
+        "",
+        "read_pmpcfg3:",
+        "        csrr a0, pmpcfg0",
+        "        li t0, 0x00000000FF000000",
+        "        and a0, a0, t0",
+        "        srli a0, a0, 24"
+      ],
+      "id": 141,
+      "text": "handle_getpmpcfg:\n        li t0, 0\n        beq a0, t0, read_pmpcfg0\n        li t0, 1\n        beq a0, t0, read_pmpcfg1\n        li t0, 2\n        beq a0, t0, read_pmpcfg2\n        li t0, 3\n        beq a0, t0, read_pmpcfg3\n        li a0, -1\n        mret\n\n    ...\nread_pmpcfg0:\n        csrr a0, pmpcfg0\n        li t0, 0x00000000000000FF\n        and a0, a0, t0\n        mret\n\nread_pmpcfg1:\n        csrr a0, pmpcfg0\n        li t0, 0x000000000000FF00\n        and a0, a0, t0\n        srli a0, a0, 8\n        mret\n\nread_pmpcfg2:\n        csrr a0, pmpcfg0\n        li t0, 0x0000000000FF0000\n        and a0, a0, t0\n        srli a0, a0, 16\n        mret\n\nread_pmpcfg3:\n        csrr a0, pmpcfg0\n        li t0, 0x00000000FF000000\n        and a0, a0, t0\n        srli a0, a0, 24"
+    },
+    {
+      "kind": "body",
+      "source_page": 22,
+      "source_pages": [
+        22
+      ],
+      "start_top": 462.1,
+      "end_top": 477.3,
+      "lines": [
+        "pmpcfg0는 8비트 설정 8개를 담는다. n=0..3에는 각각 bits 7:0, 15:8, 23:16, 31:24를",
+        "마스크·우측 이동한다. 예: 0xA1B2C3D4에서 n=2면 0xB2."
+      ],
+      "id": 142,
+      "text": "pmpcfg0는 8비트 설정 8개를 담는다. n=0..3에는 각각 bits 7:0, 15:8, 23:16, 31:24를 마스크·우측 이동한다. 예: 0xA1B2C3D4에서 n=2면 0xB2."
+    },
+    {
+      "kind": "sub",
+      "source_page": 22,
+      "source_pages": [
+        22
+      ],
+      "start_top": 504.78,
+      "end_top": 504.78,
+      "lines": [
+        "실제 초기값을 손으로 계산"
+      ],
+      "id": 143,
+      "text": "실제 초기값을 손으로 계산"
+    },
+    {
+      "kind": "body",
+      "source_page": 22,
+      "source_pages": [
+        22
+      ],
+      "start_top": 525.5,
+      "end_top": 555.9,
+      "lines": [
+        "PA2의 pmp.c는 pmpaddr0=0x3FFFFFFFFFFFFF, pmpcfg0=0xF로 설정한다. 주소",
+        "반환은 (원값<<2)&0x00FFFFFFFFFFFFFF = 0x00FFFFFFFFFFFFFC. 설정 n=0은 0x0F로",
+        "R/W/X와 TOR 비트가 켜져 있다. n=1..3의 기본 예시는 주소·설정 0이다."
+      ],
+      "id": 144,
+      "text": "PA2의 pmp.c는 pmpaddr0=0x3FFFFFFFFFFFFF, pmpcfg0=0xF로 설정한다. 주소 반환은 (원값<<2)&0x00FFFFFFFFFFFFFF = 0x00FFFFFFFFFFFFFC. 설정 n=0은 0x0F로 R/W/X와 TOR 비트가 켜져 있다. n=1..3의 기본 예시는 주소·설정 0이다."
+    },
+    {
+      "kind": "note",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 51.78,
+      "end_top": 65.88,
+      "lines": [
+        "M-mode machinevec는 이 제출의 짧은 서비스 경로이며, 모든 M-mode 예외·인터럽트를",
+        "일반적으로 처리하는 저장/복원 루틴이 아니다."
+      ],
+      "id": 145,
+      "text": "M-mode machinevec는 이 제출의 짧은 서비스 경로이며, 모든 M-mode 예외·인터럽트를 일반적으로 처리하는 저장/복원 루틴이 아니다."
+    },
+    {
+      "kind": "section",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 105.32,
+      "end_top": 105.32,
+      "lines": [
+        "07 · PA3: EDF를 코드로 따라가기"
+      ],
+      "id": 146,
+      "text": "07 · PA3: EDF를 코드로 따라가기"
+    },
+    {
+      "kind": "small",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 135.38,
+      "end_top": 135.38,
+      "lines": [
+        "이번 학기 제출 브랜치 pa3 · sched_setattr 30 / sched_yield 31"
+      ],
+      "id": 147,
+      "text": "이번 학기 제출 브랜치 pa3 · sched_setattr 30 / sched_yield 31"
+    },
+    {
+      "kind": "sub",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 160.98,
+      "end_top": 160.98,
+      "lines": [
+        "어떤 프로세스가 RT인가"
+      ],
+      "id": 148,
+      "text": "어떤 프로세스가 RT인가"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 181.36,
+      "end_top": 181.36,
+      "lines": [
+        "runtime, period, deadline | pa3:kernel/proc.h L92-94"
+      ],
+      "id": 149,
+      "text": "runtime, period, deadline | pa3:kernel/proc.h L92-94"
+    },
+    {
+      "kind": "code",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 196.23,
+      "end_top": 216.63,
+      "lines": [
+        "  int runtime;",
+        "  int period;",
+        "  uint deadline;"
+      ],
+      "id": 150,
+      "text": "  int runtime;\n  int period;\n  uint deadline;"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 231.56,
+      "end_top": 231.56,
+      "lines": [
+        "allocproc에서 0 초기화 | pa3:kernel/proc.c L125-131"
+      ],
+      "id": 151,
+      "text": "allocproc에서 0 초기화 | pa3:kernel/proc.c L125-131"
+    },
+    {
+      "kind": "code",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 246.43,
+      "end_top": 297.43,
+      "lines": [
+        "  p->pid = allocpid();",
+        "  p->state = USED;",
+        "",
+        "  p->runtime = 0;",
+        "  p->period = 0;",
+        "  p->deadline = 0;"
+      ],
+      "id": 152,
+      "text": "  p->pid = allocpid();\n  p->state = USED;\n\n  p->runtime = 0;\n  p->period = 0;\n  p->deadline = 0;"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 312.36,
+      "end_top": 312.36,
+      "lines": [
+        "syscall 검증과 양보 | pa3:kernel/sysproc.c L116-140"
+      ],
+      "id": 153,
+      "text": "syscall 검증과 양보 | pa3:kernel/sysproc.c L116-140"
+    },
+    {
+      "kind": "code",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 327.23,
+      "end_top": 555.63,
+      "lines": [
+        "sys_sched_setattr(void)",
+        "{",
+        "",
+        "  int pid;",
+        "  int runtime;",
+        "  int period;",
+        "",
+        "  argint(0, &pid);",
+        "  argint(1, &runtime);",
+        "  argint(2, &period);",
+        "",
+        "  if (runtime >= period) return -1;",
+        "  if (runtime <= 0) return -1;",
+        "  if (period <= 0) return -1;",
+        "",
+        "  return ksched_setattr(pid, runtime, period);",
+        "}",
+        "",
+        "uint64",
+        "sys_sched_yield(void)",
+        "{",
+        "  ksched_yield();",
+        "  return 0;",
+        "}"
+      ],
+      "id": 154,
+      "text": "sys_sched_setattr(void)\n{\n\n  int pid;\n  int runtime;\n  int period;\n\n  argint(0, &pid);\n  argint(1, &runtime);\n  argint(2, &period);\n\n  if (runtime >= period) return -1;\n  if (runtime <= 0) return -1;\n  if (period <= 0) return -1;\n\n  return ksched_setattr(pid, runtime, period);\n}\n\nuint64\nsys_sched_yield(void)\n{\n  ksched_yield();\n  return 0;\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 23,
+      "source_pages": [
+        23
+      ],
+      "start_top": 569.9,
+      "end_top": 585.1,
+      "lines": [
+        "runtime>0, period>0, runtime<period이어야 한다. pid=0은 자기 자신을 가리킨다.",
+        "fork 자식은 allocproc에서 RT 필드가 0이므로 부모의 RT 속성을 자동 상속하지"
+      ],
+      "id": 155,
+      "text": "runtime>0, period>0, runtime<period이어야 한다. pid=0은 자기 자신을 가리킨다. fork 자식은 allocproc에서 RT 필드가 0이므로 부모의 RT 속성을 자동 상속하지"
+    },
+    {
+      "kind": "body",
+      "source_page": 24,
+      "source_pages": [
+        24
+      ],
+      "start_top": 51.9,
+      "end_top": 51.9,
+      "lines": [
+        "않는다."
+      ],
+      "id": 156,
+      "text": "않는다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 24,
+      "source_pages": [
+        24
+      ],
+      "start_top": 73.76,
+      "end_top": 73.76,
+      "lines": [
+        "deadline = 현재 ticks + period | pa3:kernel/proc.c L767-793"
+      ],
+      "id": 157,
+      "text": "deadline = 현재 ticks + period | pa3:kernel/proc.c L767-793"
+    },
+    {
+      "kind": "code",
+      "source_page": 24,
+      "source_pages": [
+        24
+      ],
+      "start_top": 88.63,
+      "end_top": 347.63,
+      "lines": [
+        "ksched_setattr(int pid, int runtime, int period) {",
+        "",
+        "  struct proc *p;",
+        "  uint now;",
+        "",
+        "  if (pid == 0) pid = myproc()->pid;",
+        "",
+        "  acquire(&tickslock);",
+        "  now = ticks;",
+        "  release(&tickslock);",
+        "",
+        "  for (p = proc; p < &proc[NPROC]; p++) {",
+        "",
+        "    acquire(&p->lock);",
+        "",
+        "    if (p->pid == pid && p->state != UNUSED) {",
+        "      p->runtime = runtime;",
+        "      p->period = period;",
+        "      p->deadline = now + period;",
+        "      release(&p->lock);",
+        "      return 0;",
+        "    }",
+        "    release(&p->lock);",
+        "  }",
+        "",
+        "  return -1;"
+      ],
+      "id": 158,
+      "text": "ksched_setattr(int pid, int runtime, int period) {\n\n  struct proc *p;\n  uint now;\n\n  if (pid == 0) pid = myproc()->pid;\n\n  acquire(&tickslock);\n  now = ticks;\n  release(&tickslock);\n\n  for (p = proc; p < &proc[NPROC]; p++) {\n\n    acquire(&p->lock);\n\n    if (p->pid == pid && p->state != UNUSED) {\n      p->runtime = runtime;\n      p->period = period;\n      p->deadline = now + period;\n      release(&p->lock);\n      return 0;\n    }\n    release(&p->lock);\n  }\n\n  return -1;"
+    },
+    {
+      "kind": "sub",
+      "source_page": 24,
+      "source_pages": [
+        24
+      ],
+      "start_top": 370.18,
+      "end_top": 370.18,
+      "lines": [
+        "job 완료가 일반 yield와 다른 이유"
+      ],
+      "id": 159,
+      "text": "job 완료가 일반 yield와 다른 이유"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 24,
+      "source_pages": [
+        24
+      ],
+      "start_top": 390.56,
+      "end_top": 390.56,
+      "lines": [
+        "RT면 SLEEPING, 일반이면 RUNNABLE | pa3:kernel/proc.c L796-811"
+      ],
+      "id": 160,
+      "text": "RT면 SLEEPING, 일반이면 RUNNABLE | pa3:kernel/proc.c L796-811"
+    },
+    {
+      "kind": "code",
+      "source_page": 24,
+      "source_pages": [
+        24
+      ],
+      "start_top": 405.43,
+      "end_top": 558.43,
+      "lines": [
+        "void ksched_yield(void) {",
+        "",
+        "  struct proc *p = myproc();",
+        "",
+        "  acquire(&p->lock);",
+        "",
+        "  if (p->runtime > 0 && p->period > 0) {",
+        "    p->state = SLEEPING;",
+        "  } else {",
+        "    p->state = RUNNABLE;",
+        "  }",
+        "",
+        "  sched();",
+        "  release(&p->lock);",
+        "",
+        "}"
+      ],
+      "id": 161,
+      "text": "void ksched_yield(void) {\n\n  struct proc *p = myproc();\n\n  acquire(&p->lock);\n\n  if (p->runtime > 0 && p->period > 0) {\n    p->state = SLEEPING;\n  } else {\n    p->state = RUNNABLE;\n  }\n\n  sched();\n  release(&p->lock);\n\n}"
+    },
+    {
+      "kind": "body",
+      "source_page": 25,
+      "source_pages": [
+        25
+      ],
+      "start_top": 51.9,
+      "end_top": 82.3,
+      "lines": [
+        "일반 sched_yield는 CPU만 양보한다. RT의 sched_yield는 이번 job의 완료 선언이라",
+        "SLEEPING이 된다. sleep(chan)과 달리 scheduler가 now>=deadline이면 직접",
+        "RUNNABLE로 만든다. runtime을 실제로 차감하거나 실행을 강제로 막는 코드는 없다."
+      ],
+      "id": 162,
+      "text": "일반 sched_yield는 CPU만 양보한다. RT의 sched_yield는 이번 job의 완료 선언이라 SLEEPING이 된다. sleep(chan)과 달리 scheduler가 now>=deadline이면 직접 RUNNABLE로 만든다. runtime을 실제로 차감하거나 실행을 강제로 막는 코드는 없다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 25,
+      "source_pages": [
+        25
+      ],
+      "start_top": 109.78,
+      "end_top": 109.78,
+      "lines": [
+        "매 순회 EDF 후보를 고른다"
+      ],
+      "id": 163,
+      "text": "매 순회 EDF 후보를 고른다"
+    },
+    {
+      "kind": "code_label",
+      "source_page": 25,
+      "source_pages": [
+        25
+      ],
+      "start_top": 130.16,
+      "end_top": 130.16,
+      "lines": [
+        "ticks 읽기, 주기 재활성화, 최소 deadline | pa3:kernel/proc.c L449-483"
+      ],
+      "id": 164,
+      "text": "ticks 읽기, 주기 재활성화, 최소 deadline | pa3:kernel/proc.c L449-483"
+    },
+    {
+      "kind": "code",
+      "source_page": 25,
+      "source_pages": [
+        25
+      ],
+      "start_top": 145.03,
+      "end_top": 495.83,
+      "lines": [
+        "    intr_on();",
+        "    intr_off();",
+        "",
+        "    uint now;",
+        "",
+        "    uint best_deadline = 0;",
+        "    struct proc *best = 0;",
+        "    int best_pid = 0;",
+        "",
+        "    acquire(&tickslock);",
+        "    now = ticks;",
+        "    release(&tickslock);",
+        "",
+        "    for (p = proc; p < &proc[NPROC]; p++) {",
+        "",
+        "      acquire(&p->lock);",
+        "",
+        "      if (p->period > 0 && p->runtime > 0) {",
+        "        if (p->state == SLEEPING && now >= p->deadline) {",
+        "          p->deadline += p->period;",
+        "          p->state = RUNNABLE;",
+        "        }",
+        "        if (p->state == RUNNABLE) {",
+        "          if (best== 0 || p->deadline < best_deadline || (p->deadline",
+        "  >> == best_deadline && best != previous && (p == previous || p->pid <",
+        "  >> best_pid))) {",
+        "            best_deadline = p->deadline;",
+        "            best = p;",
+        "            best_pid = p->pid;",
+        "          }",
+        "        }",
+        "      }",
+        "",
+        "      release(&p->lock);",
+        "    }"
+      ],
+      "id": 165,
+      "text": "    intr_on();\n    intr_off();\n\n    uint now;\n\n    uint best_deadline = 0;\n    struct proc *best = 0;\n    int best_pid = 0;\n\n    acquire(&tickslock);\n    now = ticks;\n    release(&tickslock);\n\n    for (p = proc; p < &proc[NPROC]; p++) {\n\n      acquire(&p->lock);\n\n      if (p->period > 0 && p->runtime > 0) {\n        if (p->state == SLEEPING && now >= p->deadline) {\n          p->deadline += p->period;\n          p->state = RUNNABLE;\n        }\n        if (p->state == RUNNABLE) {\n          if (best== 0 || p->deadline < best_deadline || (p->deadline\n  >> == best_deadline && best != previous && (p == previous || p->pid <\n  >> best_pid))) {\n            best_deadline = p->deadline;\n            best = p;\n            best_pid = p->pid;\n          }\n        }\n      }\n\n      release(&p->lock);\n    }"
+    },
+    {
+      "kind": "body",
+      "source_page": 25,
+      "source_pages": [
+        25
+      ],
+      "start_top": 510.1,
+      "end_top": 555.7,
+      "lines": [
+        "잠든 RT가 now>=deadline이면 deadline += period를 한 번 실행하고 깨운다.",
+        "RUNNABLE RT 가운데 가장 이른 절대 deadline을 고른다. 동률이면 명세의 '현재",
+        "프로세스 우선'을 구현의 previous 포인터로 판단하고, 그 외에는 PID가 작은 쪽을",
+        "고른다."
+      ],
+      "id": 166,
+      "text": "잠든 RT가 now>=deadline이면 deadline += period를 한 번 실행하고 깨운다. RUNNABLE RT 가운데 가장 이른 절대 deadline을 고른다. 동률이면 명세의 '현재 프로세스 우선'을 구현의 previous 포인터로 판단하고, 그 외에는 PID가 작은 쪽을 고른다."
+    },
+    {
+      "kind": "code_label",
+      "source_page": 26,
+      "source_pages": [
+        26
+      ],
+      "start_top": 51.56,
+      "end_top": 51.56,
+      "lines": [
+        "RT 우선, 없으면 원형 RR, 없으면 wfi | pa3:kernel/proc.c L486-531"
+      ],
+      "id": 167,
+      "text": "RT 우선, 없으면 원형 RR, 없으면 wfi | pa3:kernel/proc.c L486-531"
+    },
+    {
+      "kind": "code",
+      "source_page": 26,
+      "source_pages": [
+        26
+      ],
+      "start_top": 66.43,
+      "end_top": 458.03,
+      "lines": [
+        "    if (best != 0) {",
+        "      acquire(&best->lock);",
+        "      best->state = RUNNING;",
+        "      c->proc = best;",
+        "      swtch(&c->context, &best->context);",
+        "",
+        "      mycpu()->intena = 0;",
+        "",
+        "      previous = best;",
+        "      c->proc = 0;",
+        "      release(&best->lock);",
+        "      continue;",
+        "    }",
+        "",
+        "    int found = 0;",
+        "    for (int i = 0; i < NPROC; i++) {",
+        "      int index = (next + i) % NPROC;",
+        "      p = &proc[index];",
+        "",
+        "      acquire(&p->lock);",
+        "      if (p->state == RUNNABLE) {",
+        "        p->state = RUNNING;",
+        "        c->proc = p;",
+        "        swtch(&c->context, &p->context);",
+        "",
+        "        mycpu()->intena = 0;",
+        "",
+        "        next = (index + 1) % NPROC;",
+        "        previous= p;",
+        "        c->proc = 0;",
+        "        found = 1;",
+        "        release(&p->lock);",
+        "        break;",
+        "      }",
+        "      release(&p->lock);",
+        "    }",
+        "    if (found == 0) {",
+        "      asm volatile(\"wfi\");",
+        "    }"
+      ],
+      "id": 168,
+      "text": "    if (best != 0) {\n      acquire(&best->lock);\n      best->state = RUNNING;\n      c->proc = best;\n      swtch(&c->context, &best->context);\n\n      mycpu()->intena = 0;\n\n      previous = best;\n      c->proc = 0;\n      release(&best->lock);\n      continue;\n    }\n\n    int found = 0;\n    for (int i = 0; i < NPROC; i++) {\n      int index = (next + i) % NPROC;\n      p = &proc[index];\n\n      acquire(&p->lock);\n      if (p->state == RUNNABLE) {\n        p->state = RUNNING;\n        c->proc = p;\n        swtch(&c->context, &p->context);\n\n        mycpu()->intena = 0;\n\n        next = (index + 1) % NPROC;\n        previous= p;\n        c->proc = 0;\n        found = 1;\n        release(&p->lock);\n        break;\n      }\n      release(&p->lock);\n    }\n    if (found == 0) {\n      asm volatile(\"wfi\");\n    }"
+    },
+    {
+      "kind": "body",
+      "source_page": 26,
+      "source_pages": [
+        26
+      ],
+      "start_top": 472.3,
+      "end_top": 502.7,
+      "lines": [
+        "RT 후보가 있으면 일반 프로세스는 선택되지 않는다. 없으면 next 위치부터 원형으로",
+        "RUNNABLE을 찾아 실행한다. 타이머 인터럽트는 yield()를 거쳐 재선택을 일으키므로",
+        "새 RT 작업이 생겨도 즉시 선점하는 것은 아니며 다음 재스케줄링 지점에서 반영된다."
+      ],
+      "id": 169,
+      "text": "RT 후보가 있으면 일반 프로세스는 선택되지 않는다. 없으면 next 위치부터 원형으로 RUNNABLE을 찾아 실행한다. 타이머 인터럽트는 yield()를 거쳐 재선택을 일으키므로 새 RT 작업이 생겨도 즉시 선점하는 것은 아니며 다음 재스케줄링 지점에서 반영된다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 26,
+      "source_pages": [
+        26
+      ],
+      "start_top": 530.18,
+      "end_top": 530.18,
+      "lines": [
+        "기출형 시간표: task1"
+      ],
+      "id": 170,
+      "text": "기출형 시간표: task1"
+    },
+    {
+      "kind": "body",
+      "source_page": 26,
+      "source_pages": [
+        26
+      ],
+      "start_top": 550.9,
+      "end_top": 581.3,
+      "lines": [
+        "tick 0에 P1=(1,3), P2=(1,4) 등록. 초기 deadline은 3·4. 둘 다 매 job 끝에",
+        "sched_yield한다고 가정하면 [0,1) P1, [1,2) P2, [2,3) idle/일반, [3,4) P1, [4,5) P2, [5,6)",
+        "idle/일반, [6,7) P1. tick 3에 P1을 깨울 때 deadline은 6, tick 4의 P2는 8이 된다."
+      ],
+      "id": 171,
+      "text": "tick 0에 P1=(1,3), P2=(1,4) 등록. 초기 deadline은 3·4. 둘 다 매 job 끝에 sched_yield한다고 가정하면 [0,1) P1, [1,2) P2, [2,3) idle/일반, [3,4) P1, [4,5) P2, [5,6) idle/일반, [6,7) P1. tick 3에 P1을 깨울 때 deadline은 6, tick 4의 P2는 8이 된다."
+    },
+    {
+      "kind": "body",
+      "source_page": 27,
+      "source_pages": [
+        27
+      ],
+      "start_top": 51.9,
+      "end_top": 97.5,
+      "lines": [
+        "task1 사용률 1/3+1/4=7/12 = 약 0.583. task2는 1/8+2/5+4/10=0.925. U≤1은",
+        "이상적인 단일 CPU EDF의 실행 가능성 기준이다. 제출 코드는 admission test나",
+        "runtime 초과 차단을 구현하지 않으며, 과제는 실제 실행시간<runtime·RT I/O",
+        "없음·CPUS=1을 가정한다."
+      ],
+      "id": 172,
+      "text": "task1 사용률 1/3+1/4=7/12 = 약 0.583. task2는 1/8+2/5+4/10=0.925. U≤1은 이상적인 단일 CPU EDF의 실행 가능성 기준이다. 제출 코드는 admission test나 runtime 초과 차단을 구현하지 않으며, 과제는 실제 실행시간<runtime·RT I/O 없음·CPUS=1을 가정한다."
+    },
+    {
+      "kind": "sub",
+      "source_page": 27,
+      "source_pages": [
+        27
+      ],
+      "start_top": 124.98,
+      "end_top": 124.98,
+      "lines": [
+        "코드 경계와 함정"
+      ],
+      "id": 173,
+      "text": "코드 경계와 함정"
+    },
+    {
+      "kind": "item",
+      "source_page": 27,
+      "source_pages": [
+        27
+      ],
+      "start_top": 145.64,
+      "end_top": 175.24,
+      "lines": [
+        "• scheduler는 RT 후보를 조사한 뒤 lock을 풀고 다시 best->lock을 잡지만 상태를",
+        "재확인하지 않는다. 다중 CPU로 일반화할 때 경합 위험이 있으나 과제는 단일 CPU를",
+        "가정한다."
+      ],
+      "id": 174,
+      "text": "• scheduler는 RT 후보를 조사한 뒤 lock을 풀고 다시 best->lock을 잡지만 상태를 재확인하지 않는다. 다중 CPU로 일반화할 때 경합 위험이 있으나 과제는 단일 CPU를 가정한다."
+    },
+    {
+      "kind": "item",
+      "source_page": 27,
+      "source_pages": [
+        27
+      ],
+      "start_top": 196.04,
+      "end_top": 210.84,
+      "lines": [
+        "• 여러 period를 놓친 경우 deadline에 period를 한 번만 더한다. 모든 과거 deadline을",
+        "while로 건너뛰는 구현이 아니다."
+      ],
+      "id": 175,
+      "text": "• 여러 period를 놓친 경우 deadline에 period를 한 번만 더한다. 모든 과거 deadline을 while로 건너뛰는 구현이 아니다."
+    },
+    {
+      "kind": "item",
+      "source_page": 27,
+      "source_pages": [
+        27
+      ],
+      "start_top": 231.64,
+      "end_top": 246.44,
+      "lines": [
+        "• PA3는 PA2를 합친 브랜치가 아니다. PA3의 start.c에는 PA2의 machinevec/medeleg",
+        "수정이 없다."
+      ],
+      "id": 176,
+      "text": "• PA3는 PA2를 합친 브랜치가 아니다. PA3의 start.c에는 PA2의 machinevec/medeleg 수정이 없다."
+    },
+    {
+      "kind": "section",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 53.12,
+      "end_top": 53.12,
+      "lines": [
+        "08 · 예상 문제와 해설"
+      ],
+      "id": 177,
+      "text": "08 · 예상 문제와 해설"
+    },
+    {
+      "kind": "small",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 83.18,
+      "end_top": 83.18,
+      "lines": [
+        "기출의 질문 방식을 참고해 이번 xv6/PA 코드 기준으로 새로 만든 문제"
+      ],
+      "id": 178,
+      "text": "기출의 질문 방식을 참고해 이번 xv6/PA 코드 기준으로 새로 만든 문제"
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 105.5,
+      "end_top": 120.7,
+      "lines": [
+        "01. U-mode ecall 직후 uservec 첫 csrw 이전의 a0, satp, sp, sepc는 무엇을",
+        "뜻하는가?"
+      ],
+      "id": 179,
+      "text": "01. U-mode ecall 직후 uservec 첫 csrw 이전의 a0, satp, sp, sepc는 무엇을 뜻하는가?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 138.84,
+      "end_top": 153.64,
+      "lines": [
+        "해설 | a0는 사용자 값, satp는 사용자 페이지 테이블, sp는 사용자 스택 값, sepc는",
+        "ecall 명령 주소다. 하드웨어가 커널 스택·커널 satp로 바꾸지 않는다."
+      ],
+      "id": 180,
+      "text": "해설 | a0는 사용자 값, satp는 사용자 페이지 테이블, sp는 사용자 스택 값, sepc는 ecall 명령 주소다. 하드웨어가 커널 스택·커널 satp로 바꾸지 않는다."
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 177.5,
+      "end_top": 177.5,
+      "lines": [
+        "02. csrw sscratch,a0 다음에 li a0,TRAPFRAME을 하는 이유는?"
+      ],
+      "id": 181,
+      "text": "02. csrw sscratch,a0 다음에 li a0,TRAPFRAME을 하는 이유는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 195.64,
+      "end_top": 210.44,
+      "lines": [
+        "해설 | 사용자 a0를 sscratch에 임시 보관해 a0를 trapframe 포인터로 재사용하기",
+        "위해서다. 뒤에 csrr t0,sscratch; sd t0,112(a0)로 원래 값을 저장한다."
+      ],
+      "id": 182,
+      "text": "해설 | 사용자 a0를 sscratch에 임시 보관해 a0를 trapframe 포인터로 재사용하기 위해서다. 뒤에 csrr t0,sscratch; sd t0,112(a0)로 원래 값을 저장한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 234.3,
+      "end_top": 234.3,
+      "lines": [
+        "03. U-mode ecall과 timer interrupt의 sepc 처리 차이는?"
+      ],
+      "id": 183,
+      "text": "03. U-mode ecall과 timer interrupt의 sepc 처리 차이는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 252.44,
+      "end_top": 267.24,
+      "lines": [
+        "해설 | ecall은 같은 명령 반복을 피하려고 epc+=4 한다. 타이머는 중단 명령을",
+        "재개해야 하므로 이 경로에서 +4 하지 않는다."
+      ],
+      "id": 184,
+      "text": "해설 | ecall은 같은 명령 반복을 피하려고 epc+=4 한다. 타이머는 중단 명령을 재개해야 하므로 이 경로에서 +4 하지 않는다."
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 291.1,
+      "end_top": 306.3,
+      "lines": [
+        "04. 사용자 시스템 콜의 번호가 a0라는 주장과, 결과가 a7이라는 주장을 각각",
+        "판별하라."
+      ],
+      "id": 185,
+      "text": "04. 사용자 시스템 콜의 번호가 a0라는 주장과, 결과가 a7이라는 주장을 각각 판별하라."
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 324.44,
+      "end_top": 339.24,
+      "lines": [
+        "해설 | 둘 다 거짓. 번호는 a7, 첫 인자는 a0, 결과는 trapframe->a0에 써서 userret이",
+        "복원한다."
+      ],
+      "id": 186,
+      "text": "해설 | 둘 다 거짓. 번호는 a7, 첫 인자는 a0, 결과는 trapframe->a0에 써서 userret이 복원한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 363.1,
+      "end_top": 363.1,
+      "lines": [
+        "05. TRAMPOLINE을 사용자·커널 페이지 테이블의 같은 VA에 두는 이유는?"
+      ],
+      "id": 187,
+      "text": "05. TRAMPOLINE을 사용자·커널 페이지 테이블의 같은 VA에 두는 이유는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 381.24,
+      "end_top": 396.04,
+      "lines": [
+        "해설 | uservec/userret이 satp를 바꾸는 바로 그 순간에도 연속해서 코드를 실행해야",
+        "하기 때문이다. 사용자 모드에서 자유롭게 실행하도록 PTE_U를 주는 것은 아니다."
+      ],
+      "id": 188,
+      "text": "해설 | uservec/userret이 satp를 바꾸는 바로 그 순간에도 연속해서 코드를 실행해야 하기 때문이다. 사용자 모드에서 자유롭게 실행하도록 PTE_U를 주는 것은 아니다."
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 419.9,
+      "end_top": 435.1,
+      "lines": [
+        "06. per-process, per-core, per-system을 분류하라: trapframe, cpu.context, ticks,",
+        "syscalls[], pagetable."
+      ],
+      "id": 189,
+      "text": "06. per-process, per-core, per-system을 분류하라: trapframe, cpu.context, ticks, syscalls[], pagetable."
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 453.24,
+      "end_top": 468.04,
+      "lines": [
+        "해설 | trapframe·pagetable은 프로세스별, cpu.context는 CPU별, ticks·syscalls[]는",
+        "시스템 전체다."
+      ],
+      "id": 190,
+      "text": "해설 | trapframe·pagetable은 프로세스별, cpu.context는 CPU별, ticks·syscalls[]는 시스템 전체다."
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 491.9,
+      "end_top": 491.9,
+      "lines": [
+        "07. fork 직후 같은 소스 줄에서 부모와 자식의 반환값이 다른 이유는?"
+      ],
+      "id": 191,
+      "text": "07. fork 직후 같은 소스 줄에서 부모와 자식의 반환값이 다른 이유는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 510.04,
+      "end_top": 524.84,
+      "lines": [
+        "해설 | 부모는 kfork가 PID를 반환하고 syscall이 부모 a0에 기록한다. 자식은 복제된",
+        "trapframe의 a0를 0으로 고친다."
+      ],
+      "id": 192,
+      "text": "해설 | 부모는 kfork가 PID를 반환하고 syscall이 부모 a0에 기록한다. 자식은 복제된 trapframe의 a0를 0으로 고친다."
+    },
+    {
+      "kind": "q",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 548.7,
+      "end_top": 548.7,
+      "lines": [
+        "08. swtch가 trapframe 대신 저장하는 것은 무엇인가?"
+      ],
+      "id": 193,
+      "text": "08. swtch가 trapframe 대신 저장하는 것은 무엇인가?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 28,
+      "source_pages": [
+        28
+      ],
+      "start_top": 566.84,
+      "end_top": 581.64,
+      "lines": [
+        "해설 | 커널 문맥의 ra/sp/s0-s11 같은 callee-saved 레지스터다. U→S 시 사용자",
+        "레지스터 저장은 trampoline의 trapframe 경로다."
+      ],
+      "id": 194,
+      "text": "해설 | 커널 문맥의 ra/sp/s0-s11 같은 callee-saved 레지스터다. U→S 시 사용자 레지스터 저장은 trampoline의 trapframe 경로다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 51.9,
+      "end_top": 51.9,
+      "lines": [
+        "09. wakeup이 sleep_prepare와 sleep 사이에 오면 왜 영원히 잠들지 않는가?"
+      ],
+      "id": 195,
+      "text": "09. wakeup이 sleep_prepare와 sleep 사이에 오면 왜 영원히 잠들지 않는가?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 70.04,
+      "end_top": 84.84,
+      "lines": [
+        "해설 | sleep_prepare가 채널을 먼저 등록했고 wakeup이 chan을 0으로 지운다. 이어",
+        "sleep()은 채널이 없음을 보고 SLEEPING으로 바꾸지 않는다."
+      ],
+      "id": 196,
+      "text": "해설 | sleep_prepare가 채널을 먼저 등록했고 wakeup이 chan을 0으로 지운다. 이어 sleep()은 채널이 없음을 보고 SLEEPING으로 바꾸지 않는다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 108.7,
+      "end_top": 108.7,
+      "lines": [
+        "10. Sv39 VA 0x40001234의 VPN[2:0]과 offset은? leaf PPN=0x80023이면 PA는?"
+      ],
+      "id": 197,
+      "text": "10. Sv39 VA 0x40001234의 VPN[2:0]과 offset은? leaf PPN=0x80023이면 PA는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 126.84,
+      "end_top": 141.64,
+      "lines": [
+        "해설 | VPN[2]=1, VPN[1]=0, VPN[0]=1, offset=0x234.",
+        "PA=(0x80023<<12)|0x234=0x80023234."
+      ],
+      "id": 198,
+      "text": "해설 | VPN[2]=1, VPN[1]=0, VPN[0]=1, offset=0x234. PA=(0x80023<<12)|0x234=0x80023234."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 165.5,
+      "end_top": 165.5,
+      "lines": [
+        "11. sbrk와 sbrklazy 중 실제 페이지를 즉시 늘리는 것은?"
+      ],
+      "id": 199,
+      "text": "11. sbrk와 sbrklazy 중 실제 페이지를 즉시 늘리는 것은?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 183.64,
+      "end_top": 198.44,
+      "lines": [
+        "해설 | sbrk가 SBRK_EAGER를 넘긴다. sbrklazy는 sz만 늘리고 첫 접근의 유효한",
+        "fault에서 vmfault가 페이지를 할당한다."
+      ],
+      "id": 200,
+      "text": "해설 | sbrk가 SBRK_EAGER를 넘긴다. sbrklazy는 sz만 늘리고 첫 접근의 유효한 fault에서 vmfault가 페이지를 할당한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 222.3,
+      "end_top": 222.3,
+      "lines": [
+        "12. PA1 부팅 메시지가 hart마다 중복되지 않는 이유는?"
+      ],
+      "id": 201,
+      "text": "12. PA1 부팅 메시지가 hart마다 중복되지 않는 이유는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 240.44,
+      "end_top": 255.24,
+      "lines": [
+        "해설 | main의 cpuid()==0 분기 안에 printk가 있다. 다른 hart는 전역 초기화 완료를",
+        "기다리고 자기 설정만 한다."
+      ],
+      "id": 202,
+      "text": "해설 | main의 cpuid()==0 분기 안에 printk가 있다. 다른 hart는 전역 초기화 완료를 기다리고 자기 설정만 한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 279.1,
+      "end_top": 279.1,
+      "lines": [
+        "13. PA2에서 Enter를 쳤지만 nenter가 증가하지 않는 경우 하나와 이유는?"
+      ],
+      "id": 203,
+      "text": "13. PA2에서 Enter를 쳤지만 nenter가 증가하지 않는 경우 하나와 이유는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 297.24,
+      "end_top": 312.04,
+      "lines": [
+        "해설 | 예를 들어 콘솔 입력 버퍼에 공간이 없으면 default 분기의 수용 조건을",
+        "통과하지 못해 LF 검사·증가가 실행되지 않는다."
+      ],
+      "id": 204,
+      "text": "해설 | 예를 들어 콘솔 입력 버퍼에 공간이 없으면 default 분기의 수용 조건을 통과하지 못해 LF 검사·증가가 실행되지 않는다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 335.9,
+      "end_top": 335.9,
+      "lines": [
+        "14. PA2 getpmpaddr(0) 기본값과 근거는?"
+      ],
+      "id": 205,
+      "text": "14. PA2 getpmpaddr(0) 기본값과 근거는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 354.04,
+      "end_top": 368.84,
+      "lines": [
+        "해설 | pmpaddr0 원값 0x3FFFFFFFFFFFFF를 2비트 왼쪽 이동하고 56비트 마스크하면",
+        "0x00FFFFFFFFFFFFFC다."
+      ],
+      "id": 206,
+      "text": "해설 | pmpaddr0 원값 0x3FFFFFFFFFFFFF를 2비트 왼쪽 이동하고 56비트 마스크하면 0x00FFFFFFFFFFFFFC다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 392.7,
+      "end_top": 392.7,
+      "lines": [
+        "15. PA2의 S-mode ecall에서 medeleg bit 9, a7, mepc는 각각 왜 중요한가?"
+      ],
+      "id": 207,
+      "text": "15. PA2의 S-mode ecall에서 medeleg bit 9, a7, mepc는 각각 왜 중요한가?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 410.84,
+      "end_top": 425.64,
+      "lines": [
+        "해설 | bit 9를 0으로 두어 M-mode에 도착하게 한다. a7=24/25로 서비스를 구분한다.",
+        "mepc+=4가 없으면 mret 뒤 ecall에 재진입한다."
+      ],
+      "id": 208,
+      "text": "해설 | bit 9를 0으로 두어 M-mode에 도착하게 한다. a7=24/25로 서비스를 구분한다. mepc+=4가 없으면 mret 뒤 ecall에 재진입한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 449.5,
+      "end_top": 449.5,
+      "lines": [
+        "16. PA3 sched_setattr(0,2,5)의 검증·대상·초기 deadline은?"
+      ],
+      "id": 209,
+      "text": "16. PA3 sched_setattr(0,2,5)의 검증·대상·초기 deadline은?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 467.64,
+      "end_top": 482.44,
+      "lines": [
+        "해설 | 2>0, 5>0, 2<5라 유효하다. pid=0은 자기 프로세스이며 deadline=등록 순간",
+        "ticks+5다."
+      ],
+      "id": 210,
+      "text": "해설 | 2>0, 5>0, 2<5라 유효하다. pid=0은 자기 프로세스이며 deadline=등록 순간 ticks+5다."
+    },
+    {
+      "kind": "q",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 506.3,
+      "end_top": 506.3,
+      "lines": [
+        "17. PA3 RT와 일반 프로세스가 sched_yield 후 갖는 상태를 비교하라."
+      ],
+      "id": 211,
+      "text": "17. PA3 RT와 일반 프로세스가 sched_yield 후 갖는 상태를 비교하라."
+    },
+    {
+      "kind": "answer",
+      "source_page": 29,
+      "source_pages": [
+        29
+      ],
+      "start_top": 524.44,
+      "end_top": 539.24,
+      "lines": [
+        "해설 | RT는 이번 job 완료를 뜻해 SLEEPING, 일반은 RUNNABLE이다. RT는 deadline",
+        "도달 시 scheduler가 깨운다."
+      ],
+      "id": 212,
+      "text": "해설 | RT는 이번 job 완료를 뜻해 SLEEPING, 일반은 RUNNABLE이다. RT는 deadline 도달 시 scheduler가 깨운다."
+    },
+    {
+      "kind": "q",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 51.9,
+      "end_top": 51.9,
+      "lines": [
+        "18. deadline이 같은 RT 두 개에서 PID가 큰 쪽이 직전 실행 프로세스라면?"
+      ],
+      "id": 213,
+      "text": "18. deadline이 같은 RT 두 개에서 PID가 큰 쪽이 직전 실행 프로세스라면?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 70.04,
+      "end_top": 84.84,
+      "lines": [
+        "해설 | 구현의 previous가 그 후보라면 PID보다 우선한다. previous가 두 후보 중",
+        "없으면 작은 PID가 이긴다."
+      ],
+      "id": 214,
+      "text": "해설 | 구현의 previous가 그 후보라면 PID보다 우선한다. previous가 두 후보 중 없으면 작은 PID가 이긴다."
+    },
+    {
+      "kind": "q",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 108.7,
+      "end_top": 108.7,
+      "lines": [
+        "19. PA3에 runtime=1이면 timer 1회 후 자동으로 RT가 잠드는가?"
+      ],
+      "id": 215,
+      "text": "19. PA3에 runtime=1이면 timer 1회 후 자동으로 RT가 잠드는가?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 126.84,
+      "end_top": 141.64,
+      "lines": [
+        "해설 | 아니다. 제출 코드에는 runtime 잔량 계산이 없다. RT job의 완료는 그",
+        "프로세스의 sched_yield() 호출로 표현한다."
+      ],
+      "id": 216,
+      "text": "해설 | 아니다. 제출 코드에는 runtime 잔량 계산이 없다. RT job의 완료는 그 프로세스의 sched_yield() 호출로 표현한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 165.5,
+      "end_top": 180.7,
+      "lines": [
+        "20. 기출의 'M software interrupt는 pending 비트를 지워야 한다'를 현재 PA2",
+        "machinevec에 그대로 적용할 수 있는가?"
+      ],
+      "id": 217,
+      "text": "20. 기출의 'M software interrupt는 pending 비트를 지워야 한다'를 현재 PA2 machinevec에 그대로 적용할 수 있는가?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 198.84,
+      "end_top": 213.64,
+      "lines": [
+        "해설 | 아니다. 현재 machinevec의 원인은 동기 S-mode ecall이며 mepc+4가",
+        "핵심이다. 비동기 software interrupt의 pending 해제·재진입 문제와 분리해야 한다."
+      ],
+      "id": 218,
+      "text": "해설 | 아니다. 현재 machinevec의 원인은 동기 S-mode ecall이며 mepc+4가 핵심이다. 비동기 software interrupt의 pending 해제·재진입 문제와 분리해야 한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 237.5,
+      "end_top": 252.7,
+      "lines": [
+        "21. tick 0에 PA3의 P1=(1,3), P2=(1,4)를 등록했다. 각 job이 1 tick을 사용하고",
+        "완료를 알린다면 tick 0-10 실행 순서는?"
+      ],
+      "id": 219,
+      "text": "21. tick 0에 PA3의 P1=(1,3), P2=(1,4)를 등록했다. 각 job이 1 tick을 사용하고 완료를 알린다면 tick 0-10 실행 순서는?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 270.84,
+      "end_top": 300.44,
+      "lines": [
+        "해설 | [0,1) P1, [1,2) P2, [2,3) 일반/idle, [3,4) P1, [4,5) P2, [5,6) 일반/idle, [6,7) P1, [7,8)",
+        "일반/idle, [8,9) P2, [9,10) P1. 각 release 시 deadline에 period를 더하고 후보의 절대",
+        "deadline을 비교한다."
+      ],
+      "id": 220,
+      "text": "해설 | [0,1) P1, [1,2) P2, [2,3) 일반/idle, [3,4) P1, [4,5) P2, [5,6) 일반/idle, [6,7) P1, [7,8) 일반/idle, [8,9) P2, [9,10) P1. 각 release 시 deadline에 period를 더하고 후보의 절대 deadline을 비교한다."
+    },
+    {
+      "kind": "q",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 324.3,
+      "end_top": 339.5,
+      "lines": [
+        "22. tick 5에 deadline 14인 P2가 실행 중인데 새 RT P3의 deadline이 10으로",
+        "설정됐다. 즉시 P3가 선점하는가?"
+      ],
+      "id": 221,
+      "text": "22. tick 5에 deadline 14인 P2가 실행 중인데 새 RT P3의 deadline이 10으로 설정됐다. 즉시 P3가 선점하는가?"
+    },
+    {
+      "kind": "answer",
+      "source_page": 30,
+      "source_pages": [
+        30
+      ],
+      "start_top": 357.64,
+      "end_top": 387.24,
+      "lines": [
+        "해설 | 아니다. 이번 명세는 RT 생성 시 즉시 선점하지 않는다. 다음 timer interrupt 등",
+        "재스케줄링 지점에서 P3가 RUNNABLE이면 더 이른 deadline 10 때문에 선택된다.",
+        "fork 직후 자식은 normal이므로 P3에 sched_setattr을 했다고 가정해야 한다."
+      ],
+      "id": 222,
+      "text": "해설 | 아니다. 이번 명세는 RT 생성 시 즉시 선점하지 않는다. 다음 timer interrupt 등 재스케줄링 지점에서 P3가 RUNNABLE이면 더 이른 deadline 10 때문에 선택된다. fork 직후 자식은 normal이므로 P3에 sched_setattr을 했다고 가정해야 한다."
+    },
+    {
+      "kind": "section",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 53.12,
+      "end_top": 53.12,
+      "lines": [
+        "09 · 마지막 3분 카드"
+      ],
+      "id": 223,
+      "text": "09 · 마지막 3분 카드"
+    },
+    {
+      "kind": "sub",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 85.68,
+      "end_top": 85.68,
+      "lines": [
+        "한 줄씩 소리 내어 설명"
+      ],
+      "id": 224,
+      "text": "한 줄씩 소리 내어 설명"
+    },
+    {
+      "kind": "item",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 106.34,
+      "end_top": 106.34,
+      "lines": [
+        "• trap: 하드웨어는 모드/CSR/PC, trampoline은 레지스터·sp·satp, C는 원인 분기."
+      ],
+      "id": 225,
+      "text": "• trap: 하드웨어는 모드/CSR/PC, trampoline은 레지스터·sp·satp, C는 원인 분기."
+    },
+    {
+      "kind": "item",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 127.14,
+      "end_top": 127.14,
+      "lines": [
+        "• syscall: a7 번호, a0-a5 인자, 반환 a0, U ecall의 epc+4."
+      ],
+      "id": 226,
+      "text": "• syscall: a7 번호, a0-a5 인자, 반환 a0, U ecall의 epc+4."
+    },
+    {
+      "kind": "item",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 147.94,
+      "end_top": 147.94,
+      "lines": [
+        "• context: trapframe=사용자 레지스터; swtch context=커널 callee-saved 문맥."
+      ],
+      "id": 227,
+      "text": "• context: trapframe=사용자 레지스터; swtch context=커널 callee-saved 문맥."
+    },
+    {
+      "kind": "item",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 168.74,
+      "end_top": 168.74,
+      "lines": [
+        "• fork/wait: 부모 PID/자식 0; 자식 ZOMBIE를 부모 wait가 회수."
+      ],
+      "id": 228,
+      "text": "• fork/wait: 부모 PID/자식 0; 자식 ZOMBIE를 부모 wait가 회수."
+    },
+    {
+      "kind": "item",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 189.54,
+      "end_top": 189.54,
+      "lines": [
+        "• Sv39: 9+9+9+12비트; 중간 PTE는 다음 표, leaf는 PA와 권한."
+      ],
+      "id": 229,
+      "text": "• Sv39: 9+9+9+12비트; 중간 PTE는 다음 표, leaf는 PA와 권한."
+    },
+    {
+      "kind": "item",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 210.34,
+      "end_top": 225.14,
+      "lines": [
+        "• PA2: console LF 카운트; medeleg bit9=0; M handler의 mepc+4; PMP 주소 <<2 / cfg",
+        "바이트."
+      ],
+      "id": 230,
+      "text": "• PA2: console LF 카운트; medeleg bit9=0; M handler의 mepc+4; PMP 주소 <<2 / cfg 바이트."
+    },
+    {
+      "kind": "item",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 245.94,
+      "end_top": 260.74,
+      "lines": [
+        "• PA3: deadline=ticks+period; RT 최우선·최소 deadline; 완료 yield→SLEEPING; 일반",
+        "RR."
+      ],
+      "id": 231,
+      "text": "• PA3: deadline=ticks+period; RT 최우선·최소 deadline; 완료 yield→SLEEPING; 일반 RR."
+    },
+    {
+      "kind": "sub",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 287.88,
+      "end_top": 287.88,
+      "lines": [
+        "자료 출처와 적용 범위"
+      ],
+      "id": 232,
+      "text": "자료 출처와 적용 범위"
+    },
+    {
+      "kind": "small",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 308.38,
+      "end_top": 334.58,
+      "lines": [
+        "코드: 로컬 Git pa1(c236869), pa2(9ccbcf4), pa3(f42c080). 명세: snu-csl/os-pa1, os-pa2,",
+        "os-pa3(2026 가을). 출제 형식: 제공된 2023-2, 2024-1, 2024-2, 2025-2 중간고사. 예상 문제는",
+        "원문 복제가 아니라 새로 구성한 연습 문제다."
+      ],
+      "id": 233,
+      "text": "코드: 로컬 Git pa1(c236869), pa2(9ccbcf4), pa3(f42c080). 명세: snu-csl/os-pa1, os-pa2, os-pa3(2026 가을). 출제 형식: 제공된 2023-2, 2024-1, 2024-2, 2025-2 중간고사. 예상 문제는 원문 복제가 아니라 새로 구성한 연습 문제다."
+    },
+    {
+      "kind": "small",
+      "source_page": 31,
+      "source_pages": [
+        31
+      ],
+      "start_top": 353.68,
+      "end_top": 366.78,
+      "lines": [
+        "주의: 일반 xv6 코드는 pa3 브랜치에서 발췌했다. PA1·PA2·PA3는 서로 다른 과제 브랜치라 각",
+        "절의 기능이 한 커널에 모두 합쳐진 것으로 해석하지 않는다."
+      ],
+      "id": 234,
+      "text": "주의: 일반 xv6 코드는 pa3 브랜치에서 발췌했다. PA1·PA2·PA3는 서로 다른 과제 브랜치라 각 절의 기능이 한 커널에 모두 합쳐진 것으로 해석하지 않는다."
+    }
+  ]
+}
