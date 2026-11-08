@@ -78,6 +78,23 @@ struct trapframe {
 
 enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
+struct mmap_object {
+  int refs;
+  struct spinlock lock;
+  pagetable_t pages;
+  uint64 length;
+};
+
+struct mmap_region {
+    int valid;
+    uint64 addr;
+    uint64 length;
+    int prot;
+    int flags;
+    struct mmap_object *obj; //그 객체를 참조하는 프로세스 수
+  };
+
+
 // Per-process state
 struct proc {
   struct spinlock lock;
@@ -101,4 +118,6 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+
+  struct mmap_region regions[4];
 };

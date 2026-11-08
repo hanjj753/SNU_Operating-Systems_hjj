@@ -87,6 +87,31 @@ kvminithart()
   sfence_vma();
 }
 
+static pte_t * // PTE와 함꼐 무슨 레벨에서 찾았는지 알려줌
+walklevel(pagetable_t pagetable, uint64 va, int alloc, int *out_level)
+{
+  if (va >= MAXVA)
+    panic("walk");
+
+  for (int level = 2; level > 0; level--) {
+    pte_t *pte = &pagetable[PX(level, va)];
+    if (*pte & PTE_V) { // valid
+      if (*pte & (PTE_R | PTE_W | PTE_X)) { // huge frame을 가리키는 leaf라면 바로 멈춤
+        *out_level = level;
+        return pte;
+      }
+      pagetable = (pagetable_t)PTE2PA(*pte);
+    } else {
+      if (!alloc || (pagetable = (pde_t *)kalloc()) == 0)
+        return 0;
+      memset(pagetable, 0, PGSIZE);
+      *pte = PA2PTE(pagetable) | PTE_V;
+    }
+  }
+  *out_level = 0;
+  return &pagetable[PX(0, va)];
+}
+
 // Return the address of the PTE in page table pagetable
 // that corresponds to virtual address va.  If alloc!=0,
 // create any required page-table pages.
@@ -102,21 +127,8 @@ kvminithart()
 pte_t *
 walk(pagetable_t pagetable, uint64 va, int alloc)
 {
-  if (va >= MAXVA)
-    panic("walk");
-
-  for (int level = 2; level > 0; level--) {
-    pte_t *pte = &pagetable[PX(level, va)];
-    if (*pte & PTE_V) {
-      pagetable = (pagetable_t)PTE2PA(*pte);
-    } else {
-      if (!alloc || (pagetable = (pde_t *)kalloc()) == 0)
-        return 0;
-      memset(pagetable, 0, PGSIZE);
-      *pte = PA2PTE(pagetable) | PTE_V;
-    }
-  }
-  return &pagetable[PX(0, va)];
+  int level;
+  return walklevel(pagetable, va, alloc, &level);
 }
 
 // Look up a virtual address, return the physical address,
@@ -125,20 +137,23 @@ walk(pagetable_t pagetable, uint64 va, int alloc)
 uint64
 walkaddr(pagetable_t pagetable, uint64 va)
 {
+  int level;
   pte_t *pte;
   uint64 pa;
 
   if (va >= MAXVA)
     return 0;
 
-  pte = walk(pagetable, va, 0);
+  pte = walklevel(pagetable, va, 0, &level);
   if (pte == 0)
     return 0;
   if ((*pte & PTE_V) == 0)
     return 0;
   if ((*pte & PTE_U) == 0)
     return 0;
-  pa = PTE2PA(*pte);
+
+  uint64 mask = (1UL << PXSHIFT(level)) -1; // 2MB(hugetable)이면 0x1FFFFF, 즉 아래 21bit
+  pa = PTE2PA(*pte) + (PGROUNDDOWN(va) & mask); // va의 아래 21bit offset만 가지고 온다음에 합친다
   return pa;
 }
 
@@ -178,6 +193,52 @@ mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
   return 0;
 }
 
+#ifdef SNU
+int
+maphugepages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
+{
+
+  if (size != HGPGSIZE || va >= MAXVA || va % HGPGSIZE != 0 || pa % HGPGSIZE != 0) return -1;
+
+  pte_t *pte2 = &pagetable[PX(2, va)]; //PX = va의 해당하는 level의 9bit 꺼내는 함수
+  pagetable_t l1;
+
+  if (*pte2 & PTE_V) { // valid한지
+    if (*pte2 & (PTE_R | PTE_W | PTE_X)) return -1; 
+    l1 = (pagetable_t)PTE2PA(*pte2); // 1 level page table 주소는 10 bit 이후를 뒤에 12bit 0 붙인 거
+  } else {
+    l1 = (pagetable_t)kalloc(); // page table 하나는 512 entry * 64bit(8byte) = 4096B=4KB
+    if (l1 == 0) return -1;
+
+    memset(l1, 0, PGSIZE);
+    *pte2 = PA2PTE(l1) | PTE_V;
+  }
+
+  // L1의 PTE가 2MiB 데이터 프레임을 직접 가리킨다.
+  pte_t *pte1 = &l1[PX(1, va)]; // L1 table의 PTE 꺼냄
+
+  pagetable_t old_l0 = 0;
+
+  if (*pte1 & PTE_V) {
+    if (*pte1 & (PTE_R | PTE_W | PTE_X))
+      return -1;
+
+    old_l0 = (pagetable_t)PTE2PA(*pte1);
+    for (int i = 0; i < 512; i++)
+      if (old_l0[i] & PTE_V)
+        return -1;
+  }
+
+  *pte1 = PA2PTE(pa) | perm | PTE_V;
+  sfence_vma();
+
+  if (old_l0 != 0)
+    kfree((void *)old_l0);
+
+  return 0;
+}
+#endif
+
 // create an empty user page table.
 // returns 0 if out of memory.
 pagetable_t
@@ -199,21 +260,30 @@ uvmunmap(pagetable_t pagetable, uint64 va, uint64 npages, int do_free)
 {
   uint64 a;
   pte_t *pte;
+  int level;
 
   if ((va % PGSIZE) != 0)
     panic("uvmunmap: not aligned");
 
-  for (a = va; a < va + npages * PGSIZE; a += PGSIZE) {
-    if ((pte = walk(pagetable, a, 0)) == 0) // leaf page table entry allocated?
-      continue;
-    if ((*pte & PTE_V) == 0) // has physical page been allocated?
-      continue;
+  a = va;
+  while (a < va + npages * PGSIZE) {
+    pte = walklevel(pagetable, a, 0, &level);
+    if (pte == 0) {a += PGSIZE; continue;} // leaf page table entry allocated?
+    if ((*pte & PTE_V) == 0) {a += PGSIZE; continue;}// has physical page been allocated?
     if (do_free) {
-      uint64 pa = PTE2PA(*pte);
-      kfree((void *)pa);
+      if (level == 0) {
+        uint64 pa = PTE2PA(*pte);
+        kfree((void *)pa);
+      } else {
+        uint64 pa = PTE2PA(*pte);
+        kfree_huge((void *)pa);
+      }
     }
     *pte = 0;
+    a += (level == 1) ? HGPGSIZE : PGSIZE;
   }
+
+  sfence_vma();
 }
 
 // Allocate PTEs and physical memory to grow a process from oldsz to
@@ -342,6 +412,54 @@ uvmclear(pagetable_t pagetable, uint64 va)
   *pte &= ~PTE_U;
 }
 
+#ifdef SNU
+static uint64
+mmap_cow_fault(pagetable_t pagetable, uint64 va)
+{
+  if (va >= MAXVA)
+    return 0;
+
+  int level;
+  pte_t *pte = walklevel(pagetable, va, 0, &level); // va의 pte 갖고 온다
+
+  if (pte == 0 || !(*pte & PTE_V) || !(*pte & PTE_U) ||
+      !(*pte & PTE_COW) || (level != 0 && level != 1))
+    return 0;
+
+  int huge = level == 1;
+  uint64 size = huge ? HGPGSIZE : PGSIZE;
+  uint64 va0 = va & ~(size - 1);
+  uint64 oldpa = PTE2PA(*pte); // 기존 pa
+  uint64 perm = (PTE_FLAGS(*pte) | PTE_W) & ~PTE_COW;
+
+  // 혼자 사용하는 프레임이면 복사할 필요 없음
+  if (kref_count(oldpa, huge) == 1) {
+    *pte = PA2PTE(oldpa) | perm;
+    sfence_vma();
+    return oldpa + (PGROUNDDOWN(va) - va0);
+  }
+
+  // 새로운 프레임 만든다
+  uint64 newpa = (uint64)(huge ? kalloc_huge() : kalloc());
+  if (newpa == 0)
+    return 0;
+
+  memmove((void *)newpa, (void *)oldpa, size);
+
+  // 기존 PTE를 새 프레임으로 교체
+  *pte = PA2PTE(newpa) | perm;
+  sfence_vma();
+
+  // 이전 프레임에 대한 현재 프로세스의 참조 반납
+  if (huge)
+    kfree_huge((void *)oldpa);
+  else
+    kfree((void *)oldpa);
+
+  return newpa + (PGROUNDDOWN(va) - va0);
+}
+#endif
+
 // Copy from kernel to user.
 // Copy len bytes from src to virtual address dstva in a given page table.
 // Return 0 on success, -1 on error.
@@ -364,8 +482,17 @@ copyout(pagetable_t pagetable, uint64 psz, uint64 dstva, char *src, uint64 len)
     }
 
     pte = walk(pagetable, va0, 0);
+
+    #ifdef SNU
+    if (pte != 0 && (*pte & PTE_COW)) {
+      pa0 = mmap_cow_fault(pagetable, va0);
+      if (pa0 == 0) return -1;
+
+      pte = walk(pagetable, va0, 0); //새 주소로 바꿔준다
+    }
+    #endif
     // forbid copyout over read-only user text pages.
-    if ((*pte & PTE_W) == 0)
+    if (pte == 0 ||  (*pte & PTE_W) == 0)
       return -1;
 
     n = PGSIZE - (dstva - va0);
@@ -455,23 +582,157 @@ copyinstr(pagetable_t pagetable, uint64 psz, char *dst, uint64 srcva,
   }
 }
 
+#ifdef SNU
+static uint64
+mmap_shared_faults(pagetable_t pagetable, struct mmap_region *r, uint64 va)
+{
+
+  struct mmap_object *obj = r->obj;
+  int huge = (r->flags & MAP_HUGEPAGE) != 0;
+  uint64 size = huge ? HGPGSIZE : PGSIZE;
+  uint64 va0 = va & ~(size - 1);
+  uint64 pa;
+
+  if (obj == 0 || va < r->addr || va - r->addr >= r->length)
+    return 0;
+  if (ismapped(pagetable, va0))
+    return 0;
+
+  uint64 offset = va0 - r->addr; // 해당 페이지에서 addr 시작 주소까지 offset
+  int perm = PTE_U | PTE_R;
+  if (r->prot == PROT_WRITE) perm |= PTE_W;
+
+  acquire(&obj->lock);
+
+  if(offset >= obj->length) {
+    release(&obj->lock);
+    return 0;
+  }
+
+  if (obj->pages == 0) {
+    obj->pages = uvmcreate(); // 없으면 pagetable create
+    if (obj->pages == 0) {
+      release(&obj->lock);
+      return 0;
+    }
+  }
+
+  int level;
+  pte_t *pte = walklevel(obj->pages, offset, 0, &level);
+
+  if (pte != 0 && (*pte & PTE_V)) { // 공유 표에 프레임 있으면, 매핑이 존재하는가 -> 그거 사용
+    if (level != (huge ? 1 : 0)) {
+      release(&obj->lock);
+      return 0;
+    }
+    pa = PTE2PA(*pte);
+  } else { // 없으면 새로 할당
+    pa = (uint64)(huge ? kalloc_huge() : kalloc());
+
+    if (pa == 0) {
+      release(&obj->lock);
+      return 0;
+    }
+    memset((void *)pa, 0, size);
+
+    int rc = huge ? maphugepages(obj->pages, offset, size, pa, PTE_R | PTE_W) : mappages(obj->pages, offset, size, pa, PTE_R | PTE_W);
+
+    if (rc != 0) { // 오류 나면
+      if (huge) kfree_huge((void *)pa);
+      else kfree((void *)pa);
+
+      release(&obj->lock);
+      return 0;
+    }
+  }
+
+  kref_inc(pa, huge);
+  release(&obj->lock);
+
+  int rc = huge ? maphugepages(pagetable, va0, size, pa, perm) : mappages(pagetable, va0, size, pa, perm);
+
+  if (rc != 0) {
+    if (huge)
+      kfree_huge((void *)pa);
+    else
+      kfree((void *)pa);
+    return 0;
+  }
+
+  sfence_vma();
+  return pa + (PGROUNDDOWN(va) - va0);
+} 
+
+#endif
+
 // allocate and map user memory if process is referencing a page
 // that was lazily allocated in sys_sbrk().
 // returns 0 if va is invalid or already mapped, or if
 // out of physical memory, and physical address if successful.
 uint64
-vmfault(pagetable_t pagetable, uint64 psz, uint64 va, int read)
-{
+vmfault(pagetable_t pagetable, uint64 psz, uint64 va, int read) // read = 1이면 읽기 접근, read = 0이면 write 접근
+{ // 지금 lazy heap만 처리하는데 mmap도 처리하면 됨.
   uint64 mem;
 
-  if (va >= psz)
+  #ifdef SNU
+  struct proc *p = myproc();
+
+  // mmap된 영역은 psz보다 클 수 있음 -> 먼저 검사
+  for (int i = 0;i<4;i++) {
+    struct mmap_region *r = &p->regions[i];
+
+    if (pagetable != p->pagetable || !r->valid) continue;
+
+    if (r->addr <= va && va < (r->addr + r->length)) {
+      if (read == 0 && r->prot == PROT_READ) return 0; // write 요청인데 read인 경우
+
+      if (ismapped(pagetable, va)) {
+        if (read == 0 && (r->flags & MAP_PRIVATE)) return mmap_cow_fault(pagetable, va); //write 요청이고 private
+        return 0;
+      } //이미 va가 pagetable에 있는지 확인
+
+      if (read == 0 && r->prot == PROT_READ) return 0;
+      int perm = PTE_U | PTE_R;
+      if (r->prot == PROT_WRITE) perm |= PTE_W;
+
+      if ((r->flags & MAP_SHARED) != 0) return mmap_shared_faults(pagetable, r, va); // mmap shared 폴트(부모가 접근하지 않은 상태로 fork 후 자식 접근)
+      
+      if (r->flags & MAP_HUGEPAGE) { // frame 할당
+        uint64 va0 = va & ~(HGPGSIZE - 1); // va가 속한 페이지의 시작
+
+        mem = (uint64)kalloc_huge();
+        if (mem == 0) return 0; // 오류 났다
+        memset((void *)mem, 0, HGPGSIZE);
+        if (maphugepages(pagetable, va0, HGPGSIZE, mem, perm) != 0) {
+          kfree_huge((void *)mem);
+          return 0;
+        }
+        return mem + (PGROUNDDOWN(va) - va0); // va의 4KB offset 만큼 더해줘야 함
+      } else {
+        uint64 va0 = va & ~(PGSIZE - 1); // va가 속한 페이지의 시작
+
+        mem = (uint64)kalloc();
+        if (mem == 0) return 0; // 오류 났다
+        memset((void *)mem, 0, PGSIZE);
+        if (mappages(pagetable, va0, PGSIZE, mem, perm) != 0) {
+          kfree((void *)mem);
+          return 0;
+        }
+        return mem;
+      }
+
+    }
+  }
+  #endif
+
+  if (va >= psz) // 접근하려던 가상 주소가 psz = 프로세스 메모리 크기보다 작은지
     return 0;
   va = PGROUNDDOWN(va);
   if (ismapped(pagetable, va)) {
     return 0;
   }
   mem = (uint64)kalloc();
-  if (mem == 0)
+  if (mem == 0) // 오류 났다
     return 0;
   memset((void *)mem, 0, PGSIZE);
   if (mappages(pagetable, va, PGSIZE, mem, PTE_W | PTE_U | PTE_R) != 0) {
@@ -493,3 +754,64 @@ ismapped(pagetable_t pagetable, uint64 va)
   }
   return 0;
 }
+
+#ifdef SNU
+int
+mmapfork(struct proc *parent, struct proc *child)
+{
+  for (int i = 0; i<4; i++) {
+    struct mmap_region *r = &parent->regions[i];
+    if(!r->valid) continue;
+
+    child->regions[i] = *r;
+    mmap_hold(r->obj); //obj + 1 (child 땜에)
+
+    int huge = (r->flags & MAP_HUGEPAGE);
+    uint64 step = huge ? HGPGSIZE : PGSIZE;
+
+    for (uint64 va = r->addr; va < r->addr + r->length; va += step) {
+      int level;
+      pte_t *pte = walklevel(parent->pagetable, va, 0, &level);
+
+      if (pte == 0 || !(*pte & PTE_V)) continue;
+      if (level != (huge ? 1 : 0)) panic("mmapfork level"); //level이 안 맞는다
+
+      uint64 pa = PTE2PA(*pte);
+      int perm = PTE_FLAGS(*pte);
+
+      if ((r->flags & MAP_PRIVATE) && r->prot == PROT_WRITE)
+        perm = (perm & ~PTE_W) | PTE_COW;
+
+      kref_inc(pa, huge);
+
+      int rc = huge ? maphugepages(child->pagetable, va, step, pa, perm) : mappages(child->pagetable, va, step, pa, perm);
+      if (rc != 0) {
+        // 이번에 증가시킨 참조 되돌리기
+        if (huge) kfree_huge((void *)pa); // 어차피 parent의 ref 남아있으니 ref만 -1됨
+        else kfree((void *)pa);
+
+        mmap_cleanup(child); // 앞에서 성공했던 child의 매핑과 영역 참조도 반납
+        return -1;
+      }
+    }
+  }
+
+  // 자식 매핑이 모두 성공한 뒤 부모도 쓰기 금지로 변경
+  for (int i = 0; i < 4; i++) {
+    struct mmap_region *r = &parent->regions[i];
+    if (!r->valid || !(r->flags & MAP_PRIVATE) || r->prot != PROT_WRITE) //valid = 0, private 이면서 write 가능
+      continue;
+
+    uint64 step = (r->flags & MAP_HUGEPAGE) ? HGPGSIZE : PGSIZE;
+
+    for (uint64 va = r->addr; va < r->addr + r->length; va += step) {
+      pte_t *pte = walk(parent->pagetable, va, 0);
+      if (pte != 0 && (*pte & PTE_V))
+        *pte = (*pte & ~PTE_W) | PTE_COW; //부모도 COW
+    }
+  }
+
+  sfence_vma();
+  return 0;
+}
+#endif

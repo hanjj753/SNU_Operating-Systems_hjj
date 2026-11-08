@@ -130,6 +130,8 @@ kexec(char *path, char **argv)
   safestrcpy(p->name, last, sizeof(p->name));
 
   // Commit to the user image.
+  mmap_cleanup(p);
+
   oldpagetable = p->pagetable;
   p->pagetable = pagetable;
   p->sz = sz;

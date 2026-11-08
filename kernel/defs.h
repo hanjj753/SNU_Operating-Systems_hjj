@@ -63,6 +63,8 @@ void            kinit(void);
 #ifdef SNU
 void*           kalloc_huge(void);
 void            kfree_huge(void *);
+void            kref_inc(uint64, int);
+int             kref_count(uint64 pa, int huge);
 extern int      freemem, used4k, used2m;
 #endif
 
@@ -177,6 +179,7 @@ int             ismapped(pagetable_t, uint64);
 uint64          vmfault(pagetable_t, uint64, uint64, int);
 #ifdef SNU
 extern int      pagefaults;
+int             mmapfork(struct proc *, struct proc *);
 #endif
 
 // plic.c
@@ -192,3 +195,12 @@ void            virtio_disk_intr(void);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x) / sizeof((x)[0]))
+
+//proc.h
+struct          mmap_object;
+
+//sysproc.c
+void            mmapinit(void);
+void            mmap_cleanup(struct proc *);
+void            mmap_hold(struct mmap_object *);
+void            mmap_release(struct mmap_object *);

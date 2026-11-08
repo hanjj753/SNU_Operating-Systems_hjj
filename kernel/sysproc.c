@@ -128,26 +128,163 @@ sys_kcall(void)
   }
 }
 
+static struct { // system 전체의 mmap state 관리
+    struct spinlock lock;
+    int count;
+    struct mmap_object objects[64];
+} mmap_state;
+
+void
+mmapinit(void)
+{
+    initlock(&mmap_state.lock, "mmap");
+    for (int i = 0; i < 64; i++) initlock(&mmap_state.objects[i].lock, "mmapobj");
+}
+
+static struct mmap_object *
+mmap_new(uint64 length)
+{
+  acquire(&mmap_state.lock);
+  for(int i = 0; i<64; i++) { //최대 64개의 mmap
+    struct mmap_object *obj = &mmap_state.objects[i];
+    if (obj->refs == 0) { // 자리가 있으면
+      obj->pages = 0;
+      obj->length = length;
+      
+      obj->refs = 1;
+      mmap_state.count++;
+      release(&mmap_state.lock);
+      return obj;
+    }
+  }
+  release(&mmap_state.lock);
+  return 0; //w자리 없으면 0
+}
+
+void
+mmap_hold(struct mmap_object *obj) // obj ref 늘리는 함수
+{
+  acquire(&mmap_state.lock);
+  if (obj == 0 || obj->refs <= 0)
+    panic("mmap_hold");
+
+  obj->refs++;
+  release(&mmap_state.lock);
+}
+
+void
+mmap_release(struct mmap_object *obj)
+{
+    acquire(&mmap_state.lock);
+    if (obj == 0 || obj->refs <= 0)
+      panic("mmap_release");
+
+    if (--obj->refs == 0) {// ref이 0이 되어야 release
+      acquire(&obj->lock);
+
+      if (obj->pages != 0)
+        uvmfree(obj->pages, obj->length);
+
+      obj->pages = 0;
+      obj->length = 0;
+      release(&obj->lock);
+
+      mmap_state.count--;
+    }
+    release(&mmap_state.lock);
+}
+
+void
+mmap_cleanup(struct proc *p)
+{
+  for (int i = 0; i < 4; i++) {
+    struct mmap_region *r = &p->regions[i];
+    if (!r->valid)
+      continue;
+
+    uvmunmap(p->pagetable, r->addr, r->length / PGSIZE, 1);
+    r->valid = 0;
+    mmap_release(r->obj);
+  }
+}
+
 uint64
 sys_mmap(void)
 {
   // PA4: FILL HERE
+  struct proc *p = myproc(); //현재 실행 중인 프로세스
 
+  //mmap에 전달된 인자 가져오기
+  uint64 addr;
+  int length, prot, flags;
+  argaddr(0, &addr);
+  argint(1, &length);
+  argint(2, &prot);
+  argint(3, &flags);
 
+  //오류 검사
+  if (length <= 0 || length > 64*1024*1024) return 0;    // length 오류
+  if (prot != PROT_READ && prot != PROT_WRITE) return 0; // prot이 이상하면 오류
+  
+  int mode = flags & (MAP_PRIVATE | MAP_SHARED);
+  if (mode != MAP_PRIVATE && mode != MAP_SHARED) return 0; //flag이 private나 shared가 아니면 오류
 
+  int allowed = MAP_PRIVATE | MAP_SHARED | MAP_HUGEPAGE;
+  if ((flags & ~allowed) != 0) return 0;                   //flag에서 다른 bit이 켜져 있으면 오류
 
+  // 페이지 할당
+  uint64 page_size = (flags & MAP_HUGEPAGE) ? HGPGSIZE : PGSIZE;
+  if (addr % page_size != 0) return 0; // addr이 page_size의 배수인지 확인
+  uint64 rounded = ((uint64)length + page_size - 1) / page_size * page_size;
+  
+  int empty = 4;
+  // addr ~ addr + rounded vs old
+  for (int i = 0;i<4;i++) {
+    struct mmap_region *r = &p->regions[i];
+    if (!r->valid) {empty = i; continue;} // valid가 0이면
+    uint64 old_addr = r->addr; 
+    uint64 old_length = r->length; 
 
-  return 0;
+    if ((addr < old_addr + old_length) && (old_addr < addr + rounded)) return 0;
+  }
+
+  if (empty ==4) return 0;
+
+  struct mmap_object *obj = mmap_new(rounded); // 자리가 있어야 return
+  if (obj == 0) return 0;
+
+  struct mmap_region *r = &p->regions[empty];
+  r->addr = addr;
+  r->length = rounded;
+  r->prot = prot;
+  r->flags = flags;
+  r->obj = obj;
+  r->valid = 1;
+
+  return addr;
 }
 
 uint64
 sys_munmap(void)
 {
   // PA4: FILL HERE
+  struct proc *p = myproc(); //현재 실행 중인 프로세스
+  
+  uint64 addr;
+  argaddr(0, &addr);
 
+  for (int i = 0;i<4;i++) {
+    struct mmap_region *r = &p->regions[i];
+    if (!r->valid) continue;
+    if (addr != r->addr) continue;
 
+    uvmunmap(p->pagetable, r->addr, r->length / PGSIZE, 1);
+    r->valid = 0;
 
+    mmap_release(r->obj);
 
-  return 0;
+    return 0;
+  }
+  return -1;
 }
 #endif

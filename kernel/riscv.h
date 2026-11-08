@@ -386,8 +386,11 @@ typedef uint64 *pagetable_t; // 512 PTEs
 
 #endif // __ASSEMBLER__
 
-#define PGSIZE  4096 // bytes per page
+#define PGSIZE  4096 // bytes per page = 4KB
 #define PGSHIFT 12   // bits of offset within a page
+#define HGPGSIZE 2097152 // bytes per huge page = 512 * 4KB = 2MB
+#define NGROUP ((PHYSTOP - KERNBASE) / HGPGSIZE) // 64개
+#define PGNUM HGPGSIZE / PGSIZE
 
 #define PGROUNDUP(sz)  (((sz) + PGSIZE - 1) & ~(PGSIZE - 1))
 #define PGROUNDDOWN(a) (((a)) & ~(PGSIZE - 1))
@@ -397,6 +400,7 @@ typedef uint64 *pagetable_t; // 512 PTEs
 #define PTE_W (1L << 2)
 #define PTE_X (1L << 3)
 #define PTE_U (1L << 4) // user can access
+#define PTE_COW (1L << 8)
 
 // shift a physical address to the right place for a PTE.
 #define PA2PTE(pa) ((((uint64)pa) >> 12) << 10)

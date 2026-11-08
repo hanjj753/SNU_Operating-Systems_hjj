@@ -51,6 +51,21 @@ usertrap(void)
   // save user program counter.
   p->trapframe->epc = r_sepc();
 
+  #ifdef SNU
+  if (r_scause() == 13 || r_scause() == 15) {
+    uint64 va = r_stval();
+
+    for (int i = 0; i < 4; i++) {
+      struct mmap_region *r = &p->regions[i];
+
+      if (r->valid && r->addr <= va && va < r->addr + r->length) {
+        __sync_fetch_and_add(&pagefaults, 1);
+        break;
+      }
+    }
+  }
+  #endif
+
   if (r_scause() == 8) {
     // system call
 
